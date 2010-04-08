@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef XAUDIO2_H
 #define XAUDIO2_H 
 
@@ -39,9 +40,9 @@ public :
   ARESULT SetVolume(float theVolume);
   UINT64 bufferedBytes() {
     int ret=0;
-    for (int i = 0;i<m_qBufferToPlay.size();i++)
+    for (UINT i = 0;i<m_qBufferToPlay.size();i++)
         ret+=m_qBufferToPlay[i]->AudioBytes;
-    for (int i = 0;i<m_qBufferToRelease.size();i++)
+    for (UINT i = 0;i<m_qBufferToRelease.size();i++)
         ret+=m_qBufferToRelease[i]->AudioBytes;
     return ret;
   }

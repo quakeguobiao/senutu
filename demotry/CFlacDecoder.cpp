@@ -188,7 +188,7 @@ ARESULT CFlacDecoder::Close()
 
 int CFlacDecoder::GetFullTime()
 {
-	return m_dSampleCount / m_StreamInfo.data.stream_info.sample_rate  * 1000;
+	return int(m_dSampleCount / m_StreamInfo.data.stream_info.sample_rate  * 1000);
 }
 
 int CFlacDecoder::GetCurTime()

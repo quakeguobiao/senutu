@@ -35,9 +35,9 @@ int wmain(int argc, wchar_t* argv[])
 
     while (1) {
         
-        if(kbhit())
+        if(_kbhit())
         {
-            char a = getch();
+            char a = _getch();
             if (a=='p') {
                 if (theCtrl.isPlaying()) 
                     theCtrl.Pause();
