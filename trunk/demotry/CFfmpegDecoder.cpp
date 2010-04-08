@@ -169,7 +169,7 @@ int CFfmpegDecoder::GetCurTime() /*= 0*/
     static int lastret=0;
     int ret= (int) ((pFormatContext->streams[nAudioStream]->cur_dts - startTimeStamp) 
         * av_q2d(pFormatContext->streams[nAudioStream]->time_base) *1000) ;
-    ret-=XACtrl.bufferedBytes() * 1000 / m_pwfx->nAvgBytesPerSec ;
+    ret-= int(XACtrl.bufferedBytes() * 1000 / m_pwfx->nAvgBytesPerSec) ;
     
     if (ret<0)
         return lastret;
