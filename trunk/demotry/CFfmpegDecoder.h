@@ -29,14 +29,26 @@ public:
     virtual ARESULT SetCurTime(int time);
     virtual ARESULT Close()/* = 0*/;
     virtual ~CFfmpegDecoder(void);
+    
 private:
+
+/**
+ * resize a |array| from |fromSize| bytes to |toSize| bytes,the original data
+ * in the buffer is kept during resizing.
+ */
     int resizeArray(BYTE *&array,int fromSize,int toSize);
+    
+/**
+ * ffmpeg stuff
+ */
     AVFormatContext  *pFormatContext;
     AVCodecContext  *pCodeContext;
     AVCodec    *pCodec;
     AVPacket   packet;
     int     nAudioStream;
-     
+/************************************************************************/
+/* useless things that still needed                                      */
+/************************************************************************/     
     int64_t startTimeStamp;
 };
 

@@ -11,7 +11,7 @@
 			<DebugSettings
 				Command="$(TargetPath)"
 				WorkingDirectory=""
-				CommandArguments="c:\ÖÐÎÄ.wma"
+				CommandArguments="c:\wav.wav"
 				Attach="false"
 				DebuggerType="3"
 				Remote="1"
