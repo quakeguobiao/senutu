@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib Psapi.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib libogg\libogg.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib Psapi.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib libogg\libogg.lib libogg\libvorbis_static.lib libogg\libvorbisfile_static.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib"
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib"
 				GenerateDebugInformation="true"
@@ -200,6 +200,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\COggDecoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CWavDecoder.cpp"
 				>
 			</File>
@@ -247,6 +251,10 @@
 			</File>
 			<File
 				RelativePath=".\CMp3Decoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\COggDecoder.h"
 				>
 			</File>
 			<File

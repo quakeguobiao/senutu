@@ -5,8 +5,9 @@
 #define _CFLACDECODER_H 
 
 #include <xaudio2.h>
-#include "libflac\stream_decoder.h"
 #include <map>
+
+#include "libflac\stream_decoder.h"
 #include "IDecoder.h"
 #include "XAudio2Manip.h"
 using namespace std;

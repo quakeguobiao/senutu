@@ -5,8 +5,7 @@
 #include "IDecoder.h"
 
 
- class CAudioCtrl{
-    
+class CAudioCtrl{
 public:
     CAudioCtrl() ;
     ~CAudioCtrl(); 
@@ -22,7 +21,7 @@ public:
 	float GetVolume();
 	
 	//time unit is millisecond
-    int GetFullTime();
+	int GetFullTime();
     int GetCurTime();    
     ARESULT SetCurTime(int time);
     
@@ -34,10 +33,22 @@ public:
     }
 
 private:
+	HANDLE m_hPlayThread;
+	DWORD m_dPlayThreadID;
+
     IDecoder * m_pIDecoder;
+
     //check if the filename is of a specific extension name 
-    //sample usage : checkExtension("c:\a.mp3",".mp3");
-    bool checkExtension(LPCWSTR lpFileName,LPCWSTR lpExtName) ;
+    //sample usage : checkExtension("e:\music\apologize.mp3",".mp3");
+    bool checkExtension(LPCWSTR lpFileName,LPCWSTR lpExtName);
+
+	//helper function of play thread
+	static unsigned int WINAPI playThreadHelper(LPVOID param);
+	//multi-threaded implementation of play method;
+	int playThread();
+
 
 };
+
+
 #endif //_CAUDIOCTRL_H
