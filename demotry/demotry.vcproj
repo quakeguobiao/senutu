@@ -200,10 +200,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\COggDecoder.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\CWavDecoder.cpp"
 				>
 			</File>
@@ -251,10 +247,6 @@
 			</File>
 			<File
 				RelativePath=".\CMp3Decoder.h"
-				>
-			</File>
-			<File
-				RelativePath=".\COggDecoder.h"
 				>
 			</File>
 			<File
