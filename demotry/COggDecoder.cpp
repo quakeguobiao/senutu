@@ -34,7 +34,7 @@ ARESULT COggDecoder::Open(LPWSTR strFileName)
 	SAFE_DELETE_ARRAY(fileName);
 
 	if(error < 0)                                                
-		 atrace_error_IMP(GetError(error),AR_FORMAT_ERR,"COggDecoder.cpp",46);
+		 return atrace_error(GetError(error),AR_FORMAT_ERR);
 
 //test tbd
 

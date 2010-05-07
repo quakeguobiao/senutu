@@ -11,7 +11,10 @@
 //-----------------------------------------------------------------------------
 class IDecoder{
 public:
-    IDecoder() :m_pwfx(NULL),m_bIsPlaying(false),m_bIsPause(false),m_bIsStop(true) {}
+    IDecoder() :m_pwfx(NULL),m_bIsPlaying(false),m_bIsPause(false),m_bIsStop(true) {
+		//m_pwfx = new WAVEFORMATEX();
+	}
+
     virtual ~IDecoder() {}
 
     virtual ARESULT Open( LPWSTR strFileName) = 0;

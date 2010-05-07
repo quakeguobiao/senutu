@@ -2,9 +2,8 @@
 #ifndef _COGGDECODER_H
 #define _COGGDECODER_H 
 
-#pragma comment(linker, "/nodefaultlib:avcodec.lib")
-//#pragma comment(linker, "/nodefaultlib:MSVCRT.lib")
-
+//#pragma comment(linker, "/nodefaultlib:ffmpeg\lib\avcodec.lib")
+ 
 #include <xaudio2.h>
 #include <math.h>
 

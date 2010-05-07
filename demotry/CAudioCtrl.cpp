@@ -10,6 +10,9 @@
 #include "CApeDecoder.h"
 #include "CFlacDecoder.h"
 #include "CFfmpegDecoder.h"
+#include "COggDecoder.h"
+
+
 
 //IDecoder * CAudioCtrl::m_pIDecoder = NULL;
 
@@ -23,7 +26,15 @@ CAudioCtrl::CAudioCtrl()
 ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
 {  
     ARESULT ar=AR_OK;
- 
+	
+	//try to open as *.ogg
+	SAFE_DELETE(m_pIDecoder);
+	m_pIDecoder=new COggDecoder();
+	ar=m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+	
+
 	//try to open as *.wav
     SAFE_DELETE(m_pIDecoder);
     m_pIDecoder=new CWavDecoder();
