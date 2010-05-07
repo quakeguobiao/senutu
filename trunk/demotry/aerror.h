@@ -44,6 +44,8 @@ enum ARESULT{
 
 //extern ARESULT atrace_error(LPCWSTR errstr,ARESULT ar) ;
 #define atrace_error(a,b) atrace_error_IMP(a,b,__FILE__,__LINE__);
+
+//Don't use these directly!!!
 extern ARESULT atrace_error_IMP(LPCWSTR errstr,ARESULT ar,LPCSTR file,int line);
 extern ARESULT atrace_error_IMP(const char * errstr , ARESULT ar, LPCSTR file, int line);
 
