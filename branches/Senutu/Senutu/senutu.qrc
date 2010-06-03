@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Senutu" >
+        <file>Resources/screen.png</file>
+    </qresource>
+</RCC>
