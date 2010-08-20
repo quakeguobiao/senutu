@@ -4,39 +4,46 @@
 
 #include "IDecoder.h"
 
+//This is a singleton class.
 
 class CAudioCtrl{
 public:
-    CAudioCtrl() ;
-    ~CAudioCtrl(); 
-    
-    ARESULT Open(LPWSTR lpFileName);
-    ARESULT Play();
-    ARESULT Pause();
-    ARESULT Stop();//jump to 0ms,file is still open,use close to release the file
-    ARESULT Close();//release the file
-    ARESULT Sync();
-	ARESULT SetVolume(float theVolume);
+	static void Init()
+	{
+		if (m_pAudioCtrl)
+			Free();
+		m_pAudioCtrl = new CAudioCtrl();  //make sure that only one instance is running
+	}
+	static void Free();
+   
+    static ARESULT Open(LPWSTR lpFileName);
+    static ARESULT Play();
+    static ARESULT Pause();
+    static ARESULT Stop();//jump to 0ms,file is still open,use close to release the file
+    static ARESULT Close();//release the file
+    static ARESULT Sync();
+	static ARESULT SetVolume(float theVolume);
 	
-	float GetVolume();
+	static  float GetVolume();
 	
 	//time unit is millisecond
-	int GetFullTime();
-    int GetCurTime();    
-    ARESULT SetCurTime(int time);
+	static int GetFullTime();
+    static int GetCurTime();    
+    static ARESULT SetCurTime(int time);
     
-    bool isPlaying() {
-      return m_pIDecoder->isPlaying();
-    }
-    bool isPause() {
-        return m_pIDecoder->isPause();
-    }
+    static bool isPlaying() {return m_pIDecoder->isPlaying();}
+    static bool isPause() {return m_pIDecoder->isPause();}
 
 private:
-	HANDLE m_hPlayThread;
-	DWORD m_dPlayThreadID;
+	CAudioCtrl();
+	~CAudioCtrl() {}  //virtually do nothing. All things are done in  Free()
 
-    IDecoder * m_pIDecoder;
+	static CAudioCtrl * m_pAudioCtrl;
+
+	static HANDLE m_hPlayThread;
+	static DWORD m_dPlayThreadID;
+
+    static IDecoder * m_pIDecoder;
 
     //check if the filename is of a specific extension name 
     //sample usage : checkExtension("e:\music\apologize.mp3",".mp3");
@@ -46,9 +53,17 @@ private:
 	static unsigned int WINAPI playThreadHelper(LPVOID param);
 	//multi-threaded implementation of play method;
 	int playThread();
-
-
 };
 
 
 #endif //_CAUDIOCTRL_H
+
+
+
+
+
+
+
+
+
+
