@@ -12,15 +12,18 @@
 #include "CFfmpegDecoder.h"
 #include "COggDecoder.h"
 
-
-
-//IDecoder * CAudioCtrl::m_pIDecoder = NULL;
+//static variables declaration
+CAudioCtrl * CAudioCtrl::m_pAudioCtrl = NULL;
+HANDLE CAudioCtrl::m_hPlayThread = NULL;
+IDecoder * CAudioCtrl::m_pIDecoder = NULL;
+DWORD CAudioCtrl::m_dPlayThreadID;
 
 CAudioCtrl::CAudioCtrl()
 {
-   m_pIDecoder=NULL;
+	m_pAudioCtrl = this;
+	m_pIDecoder=NULL;
   // m_pIDecoder= new CMp3Decoder();
-	//m_pIDecoder = new CFlacDecoder;   //for debug
+	//m_pIDecoder = new CFlacDecoder;   //for debugging
 }
 
 ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
@@ -28,48 +31,48 @@ ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
     ARESULT ar=AR_OK;
 	
 	//try to open as *.ogg
-	SAFE_DELETE(m_pIDecoder);
-	m_pIDecoder=new COggDecoder();
-	ar=m_pIDecoder->Open(lpFileName);
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+	m_pAudioCtrl->m_pIDecoder=new COggDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
 	if (ar==AR_OK)
 		return AR_OK;
 	
 
 	//try to open as *.wav
-    SAFE_DELETE(m_pIDecoder);
+    SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
     m_pIDecoder=new CWavDecoder();
-    ar=m_pIDecoder->Open(lpFileName);
+    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
         return AR_OK;
 
 	//try to open as *.ape
-	SAFE_DELETE(m_pIDecoder);    
-    m_pIDecoder=new CApeDecoder;
-    ar=m_pIDecoder->Open(lpFileName);
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+    m_pAudioCtrl->m_pIDecoder=new CApeDecoder;
+    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
 		return AR_OK;
 
 	//try to open as *.flac
-	SAFE_DELETE(m_pIDecoder);    
-    m_pIDecoder=new CFlacDecoder();
-    ar=m_pIDecoder->Open(lpFileName);
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+    m_pAudioCtrl->m_pIDecoder=new CFlacDecoder();
+    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
         return AR_OK;
 
     
-    if (checkExtension(lpFileName,L"mp3")) {
+    if (m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
         //try to open as *.mp3
-        SAFE_DELETE(m_pIDecoder);    
-        m_pIDecoder=new CMp3Decoder();
-        ar=m_pIDecoder->Open(lpFileName);
+        SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+        m_pAudioCtrl->m_pIDecoder=new CMp3Decoder();
+        ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
         if (ar==AR_OK)
             return AR_OK;
     }
 
     //try to open as *.wma ( or other formats ffmpeg supports)
-    SAFE_DELETE(m_pIDecoder);
-    m_pIDecoder=new CFfmpegDecoder();
-    ar=m_pIDecoder->Open(lpFileName);
+    SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+    m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
+    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
         return AR_OK;
     
@@ -78,68 +81,70 @@ ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
     
 }
 
-CAudioCtrl::~CAudioCtrl()
+void CAudioCtrl::Free()
 {
-    SAFE_DELETE(m_pIDecoder);
-	CloseHandle(m_hPlayThread);
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+	//CloseHandle(m_pAudioCtrl->m_hPlayThread);
 }
-
 
 ARESULT CAudioCtrl::Sync()
 {
-    return m_pIDecoder->Sync();
+    return m_pAudioCtrl->m_pIDecoder->Sync();
 }
 
 ARESULT CAudioCtrl::Play()
 {
-	ARESULT aresult = m_pIDecoder->Play();
+	ARESULT aresult = m_pAudioCtrl->m_pIDecoder->Play();
 	if (aresult != AR_OK)
 		return aresult;
 
-	m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,playThreadHelper,(LPVOID)this,0,(unsigned int*)&m_dPlayThreadID);
-	if (FAILED(m_hPlayThread))
+	m_pAudioCtrl->m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,m_pAudioCtrl->playThreadHelper,(LPVOID)m_pAudioCtrl,0,(unsigned int*)&m_pAudioCtrl->m_dPlayThreadID);
+	if (FAILED(m_pAudioCtrl->m_hPlayThread))
 		return atrace_error("Fail to create a thread", AR_ERROR_WHILE_CREATING_THREAD);
 	
-	WaitForSingleObject(m_hPlayThread, INFINITE);  //wait for play thread to exit
+	//WaitForSingleObject(m_hPlayThread, INFINITE);  //wait for play thread to exit
 
 	return AR_OK;
 }
 
 int CAudioCtrl::GetFullTime()
 {
-  if (m_pIDecoder) 
-	  return m_pIDecoder->GetFullTime();
+  if (m_pAudioCtrl->m_pIDecoder) 
+	  return m_pAudioCtrl->m_pIDecoder->GetFullTime();
   else 
 	  return -1;
 }
 
 int CAudioCtrl::GetCurTime()
 {
-    if (m_pIDecoder) 
-        return m_pIDecoder->GetCurTime();
+    if (m_pAudioCtrl->m_pIDecoder) 
+        return m_pAudioCtrl->m_pIDecoder->GetCurTime();
     else 
-return -1;
+		return -1;
 }
 
 ARESULT CAudioCtrl::Pause()
 {
-    return m_pIDecoder->Pause();
+	if (m_pAudioCtrl->m_pIDecoder)
+		return m_pAudioCtrl->m_pIDecoder->Pause();
+	else
+		return AR_ERROR_WHILE_DECODING;
 }
 
 ARESULT CAudioCtrl::SetCurTime( int time )
 {
-    m_pIDecoder->SetCurTime(time);
+    m_pAudioCtrl->m_pIDecoder->SetCurTime(time);
     return AR_OK;
 }
 
 float CAudioCtrl::GetVolume()
 {
-	return m_pIDecoder->GetVolume();
+	return m_pAudioCtrl->m_pIDecoder->GetVolume();
 }
 
 ARESULT CAudioCtrl::SetVolume(float theVolume)
 {
-	return m_pIDecoder->SetVolume(theVolume);
+	return m_pAudioCtrl->m_pIDecoder->SetVolume(theVolume);
 }
 
 

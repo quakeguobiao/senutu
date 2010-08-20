@@ -38,7 +38,7 @@ public:
 protected:
     WAVEFORMATEX * m_pwfx;       //pointer to waveformatex structure
     
-    //see Xaudio2Manio.h for detail
+    //see Xaudio2Manip.h for detail
     XAudio2Manip XACtrl;     //an instance of XAudio2Manip
 
 //play status
