@@ -19,8 +19,13 @@ public:
     static ARESULT Open(LPWSTR lpFileName);
     static ARESULT Play();
     static ARESULT Pause();
-    static ARESULT Stop();//jump to 0ms,file is still open,use close to release the file
-    static ARESULT Close();//release the file
+	
+	//jump to 0ms,file is still open,use close to release the file.
+    static ARESULT Stop();
+
+	//release the file   
+	static ARESULT Close();
+
     static ARESULT Sync();
 	static ARESULT SetVolume(float theVolume);
 	
@@ -53,6 +58,8 @@ private:
 	static unsigned int WINAPI playThreadHelper(LPVOID param);
 	//multi-threaded implementation of play method;
 	int playThread();
+
+	bool m_bToQuit;
 };
 
 

@@ -4,8 +4,8 @@
 COggDecoder::COggDecoder()
 {
 	//initialization
-	m_pvf=new OggVorbis_File;
-	m_pwfx= new WAVEFORMATEX;
+	m_pvf=new OggVorbis_File();
+	m_pwfx= new WAVEFORMATEX();
 	m_iEof = 0;
 	if (m_pvf == NULL||m_pwfx == NULL)
 		throw(AR_CO_E_NOTINITIALIZED);   
@@ -36,8 +36,7 @@ ARESULT COggDecoder::Open(LPWSTR strFileName)
 	if(error < 0)                                                
 		 return atrace_error(GetError(error),AR_FORMAT_ERR);
 
-//test tbd
-
+	//test tbd
 
 	vorbis_info *vi=ov_info(m_pvf,-1);                 //pull the channel and bitrate info from the file 
 
@@ -110,7 +109,7 @@ ARESULT COggDecoder::Sync(int minBufTime, int MaxBufTime, int BufferSpan)
 					Stop();
 					break;
 				} else if (bytes_read < 0) {   /*error in the stream.*/
-					return atrace_error_IMP(L"error in the stream.\n",AR_ERROR_WHILE_DECODING,"COggDecoder.cpp",111);
+					return atrace_error(L"error in the stream.\n",AR_ERROR_WHILE_DECODING);
 				} else {
 					XACtrl.SubmitSourceBuffer(buffer);    
 				}
@@ -141,7 +140,7 @@ ARESULT COggDecoder::SetCurTime(int time)
 	if (error == 0)
 		return AR_OK;
 	else                                    
-		 atrace_error_IMP(GetError(error),AR_FORMAT_ERR,"COggDecoder.cpp",148);
+		 atrace_error(GetError(error),AR_FORMAT_ERR);
 }
 
 const char * COggDecoder::GetError(int error) 

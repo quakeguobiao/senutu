@@ -11,11 +11,9 @@
 //-----------------------------------------------------------------------------
 class IDecoder{
 public:
-    IDecoder() :m_pwfx(NULL),m_bIsPlaying(false),m_bIsPause(false),m_bIsStop(true) {
-		//m_pwfx = new WAVEFORMATEX();
-	}
+    IDecoder() :m_pwfx(NULL),m_bIsPlaying(false),m_bIsPause(false),m_bIsStop(true) {}
 
-    virtual ~IDecoder() {}
+	virtual ~IDecoder() {SAFE_DELETE(m_pwfx);}
 
     virtual ARESULT Open( LPWSTR strFileName) = 0;
     virtual ARESULT Play();
@@ -41,7 +39,7 @@ protected:
     //see Xaudio2Manip.h for detail
     XAudio2Manip XACtrl;     //an instance of XAudio2Manip
 
-//play status
+	//playing status
     bool m_bIsPlaying;
     bool m_bIsPause;
     bool m_bIsStop;

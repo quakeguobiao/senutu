@@ -28,6 +28,7 @@ enum ARESULT{
 	AR_ERROR_DECODER_NOT_INITIALIZED, // can't initialize a decoder 
     AR_NULL_STRING_ARG,//string ptr is null
     AR_ERROR_OPEN_FILE,//can't open file
+	AR_ERROR_MASTERVOICE, //error when initializing xauido2 master voice
 	AR_ERROR_SRCVOICE,//error when initializing xaudio2 source voice
     AR_FORMAT_ERR,//the decoder don't support the file or the format is not supported right now
 	AR_ERROR_WHILE_DECODING, //error while decoding

@@ -1,6 +1,6 @@
 #include <QtGui>
 #include "ControlPanel.h"
-
+#include "CAudioCtrl.h"
 ControlPanel::ControlPanel( QWidget * parent )
 {
 	//Buttons
@@ -64,9 +64,24 @@ void ControlPanel::SetupControlPanel()
 	ControlPanelLayout->setColumnStretch(6,1);
 	m_pControlPanelWidget->setLayout(ControlPanelLayout);
 
+	
+	connect(m_pPlayButton,SIGNAL(clicked()), this, SLOT(play()));
+	connect(m_pStopButton,SIGNAL(clicked()), this, SLOT(stop()));
+	
 }
 
 QWidget* ControlPanel::GetWidget()
 {
 	return m_pControlPanelWidget;
+}
+
+void ControlPanel::play()
+{
+	CAudioCtrl::Open(L"f:\\mssound1.mp3");
+	CAudioCtrl::Play();
+}
+
+void ControlPanel::stop()
+{
+	CAudioCtrl::Stop();
 }

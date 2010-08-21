@@ -3,8 +3,6 @@
 #include <iostream>
 //#include "debug_new.h" // +
 
-
- 
 #include "atlbase.h"
 #include "atlstr.h"
 //#include "comutil.h"

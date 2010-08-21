@@ -26,13 +26,6 @@ void Menu::SetupMenuBar(QMenuBar* MenuBar)
 
 void Menu::AddFile()
 {
-	CAudioCtrl::Init();
-	CAudioCtrl::Open(L"e:\\music\\apologize.mp3");
-	CAudioCtrl::Play();
-/*	CAudioCtrl * ctrl = new CAudioCtrl();
-	ctrl->Open(L"e:\\music\\apologize.mp3");
-	ctrl->Play()*/;
-
 // 	QStringList FileName = QFileDialog::getOpenFileNames(this, tr("Select Music Files"),
 // 				QDesktopServices::storageLocation(QDesktopServices::MusicLocation));
 }

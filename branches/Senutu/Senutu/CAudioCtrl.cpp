@@ -1,8 +1,5 @@
 #include <shlwapi.h>
 #include <process.h>
-#include <Psapi.h>
-#include <cstdio>
-#include <conio.h>
 
 #include "CAudioCtrl.h"
 #include "CWavDecoder.h"
@@ -21,22 +18,28 @@ DWORD CAudioCtrl::m_dPlayThreadID;
 CAudioCtrl::CAudioCtrl()
 {
 	m_pAudioCtrl = this;
-	m_pIDecoder=NULL;
-  // m_pIDecoder= new CMp3Decoder();
-	//m_pIDecoder = new CFlacDecoder;   //for debugging
+	m_pIDecoder = NULL;
+	m_bToQuit = false;
 }
 
 ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
 {  
+	//TODO: exception handling
+
     ARESULT ar=AR_OK;
-	
+
 	//try to open as *.ogg
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-	m_pAudioCtrl->m_pIDecoder=new COggDecoder();
-	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-	if (ar==AR_OK)
-		return AR_OK;
-	
+	try{
+		m_pAudioCtrl->m_pIDecoder=new COggDecoder();
+		ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+		if (ar==AR_OK)
+			return AR_OK;
+	}
+	catch (exception /*e*/)
+	{
+		ar =  AR_ERROR_DECODER_NOT_INITIALIZED;
+	}	
 
 	//try to open as *.wav
     SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
@@ -47,7 +50,7 @@ ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
 
 	//try to open as *.ape
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-    m_pAudioCtrl->m_pIDecoder=new CApeDecoder;
+    m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
     ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
 		return AR_OK;
@@ -84,7 +87,8 @@ ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
 void CAudioCtrl::Free()
 {
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-	//CloseHandle(m_pAudioCtrl->m_hPlayThread);
+	CloseHandle(m_pAudioCtrl->m_hPlayThread); 
+	SAFE_DELETE(m_pAudioCtrl);
 }
 
 ARESULT CAudioCtrl::Sync()
@@ -100,7 +104,7 @@ ARESULT CAudioCtrl::Play()
 
 	m_pAudioCtrl->m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,m_pAudioCtrl->playThreadHelper,(LPVOID)m_pAudioCtrl,0,(unsigned int*)&m_pAudioCtrl->m_dPlayThreadID);
 	if (FAILED(m_pAudioCtrl->m_hPlayThread))
-		return atrace_error("Fail to create a thread", AR_ERROR_WHILE_CREATING_THREAD);
+		return atrace_error(L"Fail to create a thread", AR_ERROR_WHILE_CREATING_THREAD);
 	
 	//WaitForSingleObject(m_hPlayThread, INFINITE);  //wait for play thread to exit
 
@@ -147,7 +151,6 @@ ARESULT CAudioCtrl::SetVolume(float theVolume)
 	return m_pAudioCtrl->m_pIDecoder->SetVolume(theVolume);
 }
 
-
 ARESULT CAudioCtrl::Stop()
 {
     return m_pIDecoder->Stop();
@@ -155,6 +158,7 @@ ARESULT CAudioCtrl::Stop()
 
 ARESULT CAudioCtrl::Close()
 {
+	m_pAudioCtrl->m_bToQuit = true;  //let the thread exit
     return m_pIDecoder->Close();
 }
 
@@ -168,45 +172,19 @@ bool CAudioCtrl::checkExtension( LPCWSTR lpFileName,LPCWSTR lpExtName )
 
 unsigned int WINAPI CAudioCtrl::playThreadHelper(PVOID param)
 {
-	CAudioCtrl * pto = (CAudioCtrl*)param;
+	CAudioCtrl * pto = static_cast<CAudioCtrl*>(param);
 	return pto->playThread();
 }
 
 int CAudioCtrl::playThread()
 {
-	//IDecoder * temp = (IDecoder*)param; 
-	while (1) {
-		if(_kbhit())
-        {
-            char a = _getch();
-            if (a=='p') {
-                if (isPlaying()) 
-                    Pause();
-                else Play();
-               // _CrtDumpMemoryLeaks();
-            }
-            if (a=='u')
-                SetVolume( GetVolume()+0.2f);
-            if (a=='d')
-               SetVolume(GetVolume()-0.2f);
-            if (a=='s')
-                Stop();
-            if (a=='h') 
-                SetCurTime(GetCurTime()-5000);
-                
-            if (a=='l')
-                SetCurTime(GetCurTime()+5000);
-            if (a=='x') {
-               Close();
-             //   _CrtDumpMemoryLeaks();
-               // getch();
-                return 0;
-            }
-        }
+	while (!m_bToQuit) {
         Sync();
-        cout<<GetCurTime()<<" "<<GetFullTime()<<"\r";
-        Sleep(20);//don't sleep more than the time buffered(500ms currently);
-    }
-	
+        Sleep(20);  //don't sleep more than the time buffered(500ms currently);
+		if (GetCurTime() >= GetFullTime()){
+			Close();   //the end of a song, close the file
+			m_bToQuit = true;
+		}
+    }	
 	return 1;
 }

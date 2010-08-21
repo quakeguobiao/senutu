@@ -126,7 +126,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib Psapi.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib;"
@@ -471,18 +471,6 @@
 			SourceControlFiles="false"
 			>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\GeneratedFiles\Debug\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
@@ -495,7 +483,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_MainWindow.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -511,6 +499,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\Release\moc_MainWindow.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -543,10 +543,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Debug\moc_PlayList.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_PlayList.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -555,10 +555,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_PlayList.cpp"
+				RelativePath=".\GeneratedFiles\Debug\moc_PlayList.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool

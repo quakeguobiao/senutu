@@ -25,10 +25,10 @@ XAudio2Manip::XAudio2Manip()
 
     hr = XAudio2Create(&m_pXAudio2,flags);
 	if (FAILED(hr))
-		throw(1); // fail to create an XAudio2 instance
+		throw(AR_CO_E_NOTINITIALIZED); // fail to create an XAudio2 instance
     hr = m_pXAudio2->CreateMasteringVoice(&m_pMasteringVoice);
 	if (FAILED(hr))
-		throw(1); //fail to create mastering voice
+		throw(AR_ERROR_MASTERVOICE); //fail to create mastering voice
 }
 
 XAudio2Manip::~XAudio2Manip()
