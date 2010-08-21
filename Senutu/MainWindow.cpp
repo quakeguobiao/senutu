@@ -1,5 +1,6 @@
 #include <QtGui>
 #include "MainWindow.h"
+#include "CAudioCtrl.h"
 
 Senutu::Senutu(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -11,6 +12,9 @@ Senutu::Senutu(QWidget *parent, Qt::WFlags flags)
 	m_pControlPanel->SetupControlPanel();
 	m_pMenu->SetupMenuBar(MenuBar);
 	SetupUi();
+
+	CAudioCtrl::Init();
+
 }
 
 void Senutu::SetupUi()

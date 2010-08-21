@@ -42,41 +42,23 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 	int length = WideCharToMultiByte(CP_ACP, 0, strFileName, -1, NULL, 0, NULL, NULL); 
 	char * fileName = new char[length+1]; 
 	WideCharToMultiByte(CP_ACP, 0, strFileName, -1, fileName, length, NULL, NULL);   //convert LPWSTR to char*
-
+	
 	err = mpg123_open(m_pMp3Handle,fileName); 
 	SAFE_DELETE_ARRAY(fileName);
 	if (err !=  MPG123_OK){
 		Close();
-		/*XACtrl.Stop();
-		XACtrl.FlushSourceBuffers();
-		mpg123_close(m_pMp3Handle);
-		mpg123_delete(m_pMp3Handle);
-		mpg123_exit();
-		SAFE_DELETE(m_pwfx);
-		SAFE_DELETE(m_pMpg123Info);
-		m_pMp3Handle = NULL;*/
 		return atrace_error(mpg123_plain_strerror(err),  AR_ERROR_OPEN_FILE);  //cannot open file
 	}
     
 	err = mpg123_scan(m_pMp3Handle);
 	if (err !=  MPG123_OK){
 		Close();
-
-		//mpg123_close(m_pMp3Handle);
-		//mpg123_delete(m_pMp3Handle);
-		//mpg123_exit();
-		//m_pMp3Handle=0;
 		return atrace_error(mpg123_plain_strerror(err),  AR_ERROR_OPEN_FILE);  //cannot open file
 	}
 
 	err = mpg123_info(m_pMp3Handle,m_pMpg123Info);
 	if (err !=  MPG123_OK){
 		Close();
-
-		//mpg123_close(m_pMp3Handle);
-		//mpg123_delete(m_pMp3Handle);
-		//mpg123_exit();
-		//m_pMp3Handle=0;
 		return atrace_error(mpg123_plain_strerror(err),  AR_ERROR_OPEN_FILE);  //cannot open file
 	}
 	m_nSampleCount = mpg123_length(m_pMp3Handle);   //get total samples
@@ -144,7 +126,7 @@ ARESULT CMp3Decoder::Close()
 		mpg123_exit();
 		SAFE_DELETE(m_pMpg123Info);
 		SAFE_DELETE(m_pwfx);
-		m_pMp3Handle=NULL;
+		m_pMp3Handle = NULL;
 	}
 
 	return AR_OK;
@@ -153,7 +135,6 @@ ARESULT CMp3Decoder::Close()
 ARESULT CMp3Decoder::Sync(int minBufTime, int MaxBufTime, int BufferSpan)
 {
     if (m_bIsPlaying) {
-        //cout<<XACtrl.bufferedTime()<<endl;
         while (XACtrl.bufferedTime() < minBufTime) {
             XAUDIO2_BUFFER *buffer = new XAUDIO2_BUFFER();
             size_t done=0;
@@ -164,9 +145,11 @@ ARESULT CMp3Decoder::Sync(int minBufTime, int MaxBufTime, int BufferSpan)
             buffer->AudioBytes = done;
             if (done == toread) {
                 XACtrl.SubmitSourceBuffer(buffer);        
-            }else {
+            }
+			else {
                 SAFE_DELETE_XABUFFER(buffer);
-                Stop();
+				Close();
+                //Stop();
                 break;
             }
 		}
@@ -197,6 +180,6 @@ int CMp3Decoder::GetFullTime()
 
 int CMp3Decoder::GetCurTime()
 {
-	return int(m_dTimePerFrame * mpg123_tellframe(m_pMp3Handle) * 1000);/* - XACtrl.bufferedTime();*/
+	return int(m_dTimePerFrame * mpg123_tellframe(m_pMp3Handle) * 1000);
 }
 

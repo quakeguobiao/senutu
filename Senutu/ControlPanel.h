@@ -16,13 +16,13 @@ public:
 	void SetupControlPanel();
 	QWidget* GetWidget();
 
-//private slots:
-//	void play();
-//	void pause();
-//	void stop();
-//	void rewind();
-//	void setvolume();
-//	void setposition();
+private slots:
+	void play();
+	//void pause();
+	void stop();
+	//void rewind();
+	//void setvolume();
+	//void setposition();
 
 private:
 	QIcon m_PlayIcon;

@@ -51,13 +51,14 @@ ARESULT CFlacDecoder::Open( LPWSTR strFileName)
 	FLAC__metadata_get_streaminfo(fileName,&m_StreamInfo);  //get matadata of the file
 	if (m_StreamInfo.length < 0 || m_StreamInfo.type < 0)  //format error
 		return  AR_FORMAT_ERR;
-
+	
 	FLAC__StreamDecoderInitStatus ErrorCode = FLAC__stream_decoder_init_file(m_pFlacDecoder, fileName, WriteCallback, NULL, ErrorCallback,NULL);
 	SAFE_DELETE_ARRAY(fileName);
+	
 	if(ErrorCode != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
 		FLAC__stream_decoder_delete(m_pFlacDecoder);
 		m_pFlacDecoder = NULL;
-		return atrace_error_IMP(FLAC__StreamDecoderInitStatusString[ErrorCode], AR_ERROR_OPEN_FILE,"CFlacDecoder.cpp",55); //fail to open the file
+		return atrace_error(FLAC__StreamDecoderInitStatusString[ErrorCode], AR_ERROR_OPEN_FILE); //fail to open the file
 	}
 	
 	FLAC__stream_decoder_process_until_end_of_metadata(m_pFlacDecoder);
@@ -135,7 +136,7 @@ ARESULT CFlacDecoder::Sync(int minBufTime,int MaxBufTime,int BufferSpan)
 			FLAC__bool ok = FLAC__stream_decoder_process_single(m_pFlacDecoder);
 				//start working, proceed to call backs, decode a single frame or metadata block for each time
 			if (!ok)
-				return atrace_error_IMP(FLAC__StreamDecoderStateString[FLAC__stream_decoder_get_state(m_pFlacDecoder)],	AR_ERROR_WHILE_DECODING,"CFlacDecoder.cpp",119);
+				return atrace_error(FLAC__StreamDecoderStateString[FLAC__stream_decoder_get_state(m_pFlacDecoder)],	AR_ERROR_WHILE_DECODING);
 		}
 	}
 	return AR_OK;
