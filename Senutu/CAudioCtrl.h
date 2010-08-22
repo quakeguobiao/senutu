@@ -16,9 +16,9 @@ public:
 	}
 	static void Free();
    
-    static ARESULT Open(LPWSTR lpFileName);
-    static ARESULT Play();
-    static ARESULT Pause();
+	static ARESULT Open(LPWSTR lpFileName);
+	static ARESULT Play();
+	static ARESULT Pause();
 	
 	//jump to 0ms,file is still open,use close to release the file.
     static ARESULT Stop();
@@ -26,18 +26,21 @@ public:
 	//release the file   
 	static ARESULT Close();
 
-    static ARESULT Sync();
+	static ARESULT Sync();
 	static ARESULT SetVolume(float theVolume);
 	
 	static  float GetVolume();
 	
 	//time unit is millisecond
 	static int GetFullTime();
-    static int GetCurTime();    
-    static ARESULT SetCurTime(int time);
+	static int GetCurTime();    
+	static ARESULT SetCurTime(int time);
     
     static bool isPlaying() {return m_pIDecoder->isPlaying();}
     static bool isPause() {return m_pIDecoder->isPause();}
+
+	//NOTE:call this after Open()!
+	static TAG GetTag();
 
 private:
 	CAudioCtrl();

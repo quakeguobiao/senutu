@@ -188,3 +188,11 @@ int CAudioCtrl::playThread()
     }	
 	return 1;
 }
+
+TAG CAudioCtrl::GetTag()
+{
+	if (m_pIDecoder)
+		return m_pIDecoder->GetTag();
+	else
+		return TAG("Unknown","Unnamed","Unknown","0","","");
+}
