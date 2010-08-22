@@ -38,7 +38,7 @@ enum ARESULT{
 	AR_E_WARNING,//some thing not severe
 	AR_XA2_NOT_INITIALIZED,//try to play music before xaudio2manip::setformat
 	AR_ERROR_WHILE_CREATING_THREAD, //fail to creat a thread
-	
+	AR_ERROR_WHILE_DOWNLOADING_LYRICS, //fail to download lyrics
     AR_OK=0,//all right
 
 };

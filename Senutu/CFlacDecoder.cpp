@@ -151,8 +151,8 @@ FLAC__StreamDecoderWriteStatus CFlacDecoder::WriteCallback(const FLAC__StreamDec
 	DWORD done = 0;
 	for(size_t i = 0; i < frame->header.blocksize; ++i) 
 		for (size_t j = 0 ; j < frame->header.channels ; ++j){
-			pBuffer->pAudioData[done++] = BYTE(buffer[j][i]);
-			pBuffer->pAudioData[done++] = BYTE(buffer[j][i] >> 8);  //eliminate its high digit
+			pBuffer->pAudioData[done++] = static_cast<BYTE>(buffer[j][i]);
+			pBuffer->pAudioData[done++] = static_cast<BYTE>(buffer[j][i] >> 8);  //eliminate its high digit
 		}
 	XACtrl.SubmitSourceBuffer(pBuffer);   
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;

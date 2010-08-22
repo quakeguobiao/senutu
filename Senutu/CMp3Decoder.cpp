@@ -74,6 +74,31 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 		return atrace_error(mpg123_plain_strerror(err), AR_FORMAT_ERR);  //something goes wrong with file format
 	}
 
+	//load the tag information
+	mpg123_id3v1 * v1;
+	mpg123_id3v2 * v2;
+
+	if ((mpg123_meta_check(m_pMp3Handle) & MPG123_ID3) && mpg123_id3(m_pMp3Handle, &v1, &v2) == MPG123_OK) { //has some ID3 info, go ahead
+		if (v1){    //id3 v1 is not NULL
+			m_tag.Title = v1->title;
+			m_tag.Artist = v1->artist;
+			m_tag.Album = v1->album;
+			m_tag.Year = v1->year;
+			m_tag.Comment = v1->comment;
+			m_tag.Genre = v1->genre;
+		}
+		if (v2){
+			m_tag.Title = v2->title;
+			m_tag.Artist = v2->artist;
+			m_tag.Album = v2->album;
+			m_tag.Year = v2->year;
+			m_tag.Comment = v2->comment;
+			m_tag.Genre = v2->genre;
+		}
+		SAFE_DELETE(v1);
+		SAFE_DELETE(v2);
+	}
+
 	m_pwfx->nChannels = channels;    
 	m_pwfx->nSamplesPerSec = rate;
 	m_pwfx->wBitsPerSample = 16;   //TBD

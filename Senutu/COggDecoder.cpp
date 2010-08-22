@@ -140,7 +140,7 @@ ARESULT COggDecoder::SetCurTime(int time)
 	if (error == 0)
 		return AR_OK;
 	else                                    
-		 atrace_error(GetError(error),AR_FORMAT_ERR);
+		return atrace_error(GetError(error),AR_FORMAT_ERR);
 }
 
 const char * COggDecoder::GetError(int error) 
@@ -154,5 +154,6 @@ const char * COggDecoder::GetError(int error)
 		case OV_ENOSEEK: return "Bitstream is not seekable.";break;
 		case OV_EINVAL :return "Invalid argument value; possibly called with an OggVorbis_File structure that isn't open. ";break;
 		case OV_EBADLINK: return "Invalid stream section supplied to libvorbisfile, or the requested link is corrupt. ";break;
+		default: return "General Error";break;
 	}
 }

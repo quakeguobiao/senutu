@@ -1,6 +1,8 @@
 #include <QtGui>
 #include "ControlPanel.h"
 #include "CAudioCtrl.h"
+#include "Lyrics.h"  //temp
+
 ControlPanel::ControlPanel( QWidget * parent )
 {
 	//Buttons
@@ -83,5 +85,10 @@ void ControlPanel::play()
 
 void ControlPanel::stop()
 {
-	CAudioCtrl::Stop();
+	//CAudioCtrl::Stop();
+
+
+	//for debugging
+	Lyrics * temp = new Lyrics("dd","dd");
+	temp->DownloadFromUrl("http://www.renren.com/home");
 }
