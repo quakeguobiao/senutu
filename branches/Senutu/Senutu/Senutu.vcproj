@@ -56,7 +56,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib Psapi.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtNetwork4.lib dxerr.lib dxguid.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib Psapi.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="$(QTDIR)\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib"
@@ -109,7 +109,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;ffmpeg\include"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;ffmpeg\include;&quot;$(QTDIR)\include\QtNetwork&quot;"
 				PreprocessorDefinitions="UNICODE,WIN32,QT_THREAD_SUPPORT,QT_CORE_LIB,QT_GUI_LIB"
 				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="false"
@@ -126,7 +126,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtNetworkd4.lib dxerr.lib dxguid.lib d3dx9d.lib d3d9.lib winmm.lib odbc32.lib odbccp32.lib comctl32.lib libmpg123\libmpg123.lib libflac\libFLAC_dynamic.lib maclib\maclib.lib ffmpeg\lib\avcodec.lib ffmpeg\lib\avformat.lib ffmpeg\lib\swscale.lib libogg\libogg.lib libogg\libogg_static.lib libogg\libvorbisfile_static.lib libogg\libvorbis_static.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib;"
@@ -282,7 +282,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing ControlPanel.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; &quot;.\ControlPanel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_ControlPanel.cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; &quot;.\ControlPanel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_ControlPanel.cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\ControlPanel.h"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_ControlPanel.cpp&quot;"
 					/>
@@ -299,6 +299,28 @@
 			<File
 				RelativePath=".\Lyrics.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing Lyrics.h..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -I&quot;.\ffmpeg\include\.&quot; -I&quot;.\.&quot; -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; &quot;.\Lyrics.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_Lyrics.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\Lyrics.h"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_Lyrics.cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing Lyrics.h..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; &quot;.\Lyrics.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_Lyrics.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\Lyrics.h"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_Lyrics.cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\MainWindow.h"
@@ -320,7 +342,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing MainWindow.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; &quot;.\MainWindow.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_MainWindow.cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; &quot;.\MainWindow.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_MainWindow.cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\MainWindow.h"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_MainWindow.cpp&quot;"
 					/>
@@ -346,7 +368,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing Menu.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; &quot;.\Menu.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_Menu.cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; &quot;.\Menu.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_Menu.cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\Menu.h"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_Menu.cpp&quot;"
 					/>
@@ -372,7 +394,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing PlayList.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; &quot;.\PlayList.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_PlayList.cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\ffmpeg\include\.&quot; -I&quot;$(QTDIR)\include\QtNetwork\.&quot; &quot;.\PlayList.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_PlayList.cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;.\PlayList.h"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_PlayList.cpp&quot;"
 					/>
@@ -499,6 +521,44 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\GeneratedFiles\Release\moc_Lyrics.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\Debug\moc_Lyrics.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\GeneratedFiles\Release\moc_MainWindow.cpp"
 				>
 				<FileConfiguration
@@ -523,18 +583,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_Menu.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\GeneratedFiles\Debug\moc_Menu.cpp"
 				>
 				<FileConfiguration
@@ -547,10 +595,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Debug\moc_PlayList.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_Menu.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -563,6 +611,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\Debug\moc_PlayList.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
