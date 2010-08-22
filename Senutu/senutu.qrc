@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/Senutu" >
-        <file>Resources/screen.png</file>
+    <qresource prefix="/res">
+        <file>images/slider_thumb_on.png</file>
+        <file>images/screen.png</file>
+        <file>images/slider_bar.png</file>
     </qresource>
 </RCC>

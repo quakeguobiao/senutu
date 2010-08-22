@@ -2,27 +2,29 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include "ui_senutu.h"
-#include "ControlPanel.h"
-#include "Menu.h"
+#include <QtCore/QStringList>
+#include "CAudioCtrl.h"
 #include "PlayList.h"
+#include "ui_MainWindow.h"
 
-class Senutu : public QMainWindow
+class ControlPanel;
+
+class Senutu : public QMainWindow,public Ui::MainWindow
 {
 	Q_OBJECT
-
 public:
 	Senutu(QWidget *parent = 0, Qt::WFlags flags = 0);
 	//~Senutu();
 
-private:
-	void SetupUi();
-	Ui::SenutuClass ui;
-	ControlPanel *m_pControlPanel;
-	Menu *m_pMenu;
-	PlayList *m_pPlayList;
-	QMenuBar *MenuBar;
+private slots:
+	void open();
 
+private:
+	ControlPanel *m_pControlPanel;
+	PlayList *m_pPlayList;
+	QStringList m_MusicList;
+
+	void createConnections();
 
 };
 

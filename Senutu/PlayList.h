@@ -1,19 +1,18 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include <QTableWidget>
+#include <QtGui/QWidget>
+#include <QtGui/QTableWidget>
+#include "CAudioCtrl.h"
 
-class PlayList:public QWidget{
+#include "ui_PlayList.h"
+
+class PlayList:public QWidget,public Ui::PlayList
+{
 	Q_OBJECT
-
 public:
 	PlayList(QWidget* parent = 0);
-	void AddPlayList();
-	//~PlayList();
-	QTableWidget* GetWidget();
-private:
-	QTableWidget* m_pMusicTable;
-
+	void AddMusic(TAG &musicInfo);
 };
 
 
