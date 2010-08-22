@@ -14,8 +14,12 @@ struct TAG
 	string Year;
 	string Comment;
 	string Genre;
+	TAG() {}
+	TAG(string title, string artist, string album, string year, string comment, string genre):
+			Title(title),Artist(artist),Album(album),Comment(comment),Genre(genre)  {}
 };
 typedef struct TAG TAG;
+
 //----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------

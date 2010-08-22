@@ -33,7 +33,7 @@ QString Lyrics::OnDownloadFinished(QNetworkReply * reply)
 		QString result(reply->readAll());    //the whole page of the whole file
 		m_CurrentDownloads.removeAll(reply);
 		reply->deleteLater();
-		ToQianQianHexString("ºúÑå±ó");
+//		ToQianQianHexString("ºúÑå±ó");
 		return result;
 	}
 }
