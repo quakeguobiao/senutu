@@ -1,21 +1,24 @@
 #include <QtGui>
+#include <QtGui/QTableWidgetItem>
+
 #include "PlayList.h"
+#include "ui_PlayList.h"
 
-PlayList::PlayList(QWidget* parent)
+PlayList::PlayList(QWidget *parent):QWidget(parent)
 {
-	m_pMusicTable = new QTableWidget(0,4,parent);
-	QStringList headers;
-	headers << tr("Title") <<tr("Time")<< tr("Artist") << tr("Album");
-	m_pMusicTable->setHorizontalHeaderLabels(headers);
-	m_pMusicTable->setSelectionMode(QAbstractItemView::SingleSelection);
-	m_pMusicTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+	setupUi(this);
 }
 
-void PlayList::AddPlayList()
+void PlayList::AddMusic(TAG & musicInfo)
 {
-}
-
-QTableWidget* PlayList::GetWidget()
-{
-	return m_pMusicTable;
+	QTableWidgetItem *titleItem = new QTableWidgetItem;
+	titleItem->setText(QString(musicInfo.Title.c_str()));
+	titleItem->setFlags(titleItem->flags() ^ Qt::ItemIsEditable);
+	QTableWidgetItem *artistItem = new QTableWidgetItem;
+	artistItem->setText(QString(musicInfo.Artist.c_str()));
+	artistItem->setFlags(artistItem->flags() ^ Qt::ItemIsEditable);
+	int currentRow = m_pMusicTable->rowCount();
+	m_pMusicTable->insertRow(currentRow);
+	m_pMusicTable->setItem(currentRow, 0, titleItem);
+	m_pMusicTable->setItem(currentRow, 1, artistItem);
 }

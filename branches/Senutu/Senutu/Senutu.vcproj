@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SenutuStyle.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\XAudio2Manip.cpp"
 				>
 			</File>
@@ -402,6 +406,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SenutuStyle.h"
+				>
+			</File>
+			<File
 				RelativePath=".\XAudio2Manip.h"
 				>
 			</File>
@@ -412,17 +420,17 @@
 			UniqueIdentifier="{99349809-55BA-4b9d-BF79-8FDBB0286EB3}"
 			>
 			<File
-				RelativePath=".\senutu.ui"
+				RelativePath=".\ControlPanel.ui"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputPath)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_senutu.h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_senutu.h&quot;"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -430,10 +438,62 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputPath)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_senutu.h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_senutu.h&quot;"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\MainWindow.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\PlayList.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
 					/>
 				</FileConfiguration>
 			</File>
@@ -445,7 +505,7 @@
 			ParseFiles="false"
 			>
 			<File
-				RelativePath=".\Resources\screen.png"
+				RelativePath=".\images\screen.png"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -472,10 +532,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Rcc&apos;ing senutu.qrc..."
-						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;senutu&quot; -no-compress &quot;.\senutu.qrc&quot; -o .\GeneratedFiles\qrc_senutu.cpp&#x0D;&#x0A;"
-						AdditionalDependencies=".\senutu.qrc;.\Resources\screen.png"
-						Outputs=".\GeneratedFiles\qrc_senutu.cpp"
+						Description="Rcc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress &quot;$(InputPath)&quot; -o .\GeneratedFiles\qrc_$(InputName).cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(InputPath);.\images\slider_thumb_on.png;.\images\screen.png;.\images\slider_bar.png"
+						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -483,10 +543,50 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Rcc&apos;ing senutu.qrc..."
-						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;senutu&quot; -no-compress &quot;.\senutu.qrc&quot; -o .\GeneratedFiles\qrc_senutu.cpp&#x0D;&#x0A;"
-						AdditionalDependencies=".\senutu.qrc;.\Resources\screen.png"
-						Outputs=".\GeneratedFiles\qrc_senutu.cpp"
+						Description="Rcc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress &quot;$(InputPath)&quot; -o .\GeneratedFiles\qrc_$(InputName).cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(InputPath);.\images\slider_thumb_on.png;.\images\screen.png;.\images\slider_bar.png"
+						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\images\slider_bar.png"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\images\slider_thumb_on.png"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
 			</File>
@@ -497,18 +597,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			SourceControlFiles="false"
 			>
-			<File
-				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
 			<File
 				RelativePath=".\GeneratedFiles\Debug\moc_ControlPanel.cpp"
 				>
@@ -522,7 +610,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_Lyrics.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -546,7 +634,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_MainWindow.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_Lyrics.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -562,6 +650,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\Release\moc_MainWindow.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -594,18 +694,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_PlayList.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\GeneratedFiles\Debug\moc_PlayList.cpp"
 				>
 				<FileConfiguration
@@ -618,11 +706,31 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\GeneratedFiles\Release\moc_PlayList.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\GeneratedFiles\qrc_senutu.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_senutu.h"
+				RelativePath=".\GeneratedFiles\ui_ControlPanel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\ui_MainWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneratedFiles\ui_PlayList.h"
 				>
 			</File>
 		</Filter>
