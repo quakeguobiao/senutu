@@ -1,4 +1,8 @@
 #include "Lyrics.h"
+#include <QtEndian>
+
+const QString Lyrics::m_SearchPath =  "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?sh?Artist=1%&Title=2%&Flags=0";
+const QString Lyrics::m_DownloadPath =  "http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?dl?Id=1%&Code=2%";
 
 Lyrics::Lyrics(QString artist, QString title):m_Artist(artist), m_Title(title) 
 {
@@ -29,6 +33,22 @@ QString Lyrics::OnDownloadFinished(QNetworkReply * reply)
 		QString result(reply->readAll());    //the whole page of the whole file
 		m_CurrentDownloads.removeAll(reply);
 		reply->deleteLater();
+		ToQianQianHexString("ºúÑå±ó");
 		return result;
 	}
+}
+
+QString Lyrics::ToQianQianHexString(QString str)
+{
+	wchar_t WideCharStr[200];  //assume that the string is no longer than 200 characters
+	str.toWCharArray(WideCharStr);
+	QString result;
+	for (int i = 0 ; i < str.count() ; ++i){
+		int x = qFromBigEndian(WideCharStr[i]);   //reverse: from litter-endian to big-endian
+		char temp[10];
+		sprintf(temp,"%04X",x);   //convert to hexadecimal, pad left 4 digits
+		result += temp;
+	}
+	return result;
+
 }
