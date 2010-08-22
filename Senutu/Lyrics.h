@@ -45,8 +45,12 @@ private slots:
 private:
 	Lyrics() {} //do NOT use this!
 	
+	
+
 	//get the Unicode of a string, in hexadecimal form
 	QString ToQianQianHexString(QString str); 
+	//get a qianqian hashcode
+public : QString CreateQianQianCode(QString singer,QString title, int lrcId);
 
 	static const QString m_SearchPath;
 	static const QString m_DownloadPath;

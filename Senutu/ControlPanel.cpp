@@ -89,6 +89,8 @@ void ControlPanel::stop()
 
 
 	//for debugging
+
 	Lyrics * temp = new Lyrics("dd","dd");
-	temp->DownloadFromUrl("http://www.renren.com/home");
+//temp->CreateQianQianCode("ºúÑå±ó","ÄÐÈËKTV",286437);
+	temp->CreateQianQianCode("Nan", "Lonel", 58820);
 }
