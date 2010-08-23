@@ -35,6 +35,7 @@ protected:
 	mpg123_frameinfo * m_pMpg123Info;
 	long m_nSampleCount;
 	double m_dTimePerFrame;
+	TAG m_tag;
 	
 };
 

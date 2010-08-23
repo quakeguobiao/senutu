@@ -3,6 +3,8 @@
 #define _CAPEDECODER_H_ 
 #include "maclib\all.h"
 #include "maclib\MACLib.h"
+#include "maclib\APETag.h"
+
 #include "IDecoder.h"
 #include "XAudio2Manip.h"
 
@@ -19,6 +21,7 @@ public :
     virtual int GetCurTime() ;
    
     virtual ARESULT SetCurTime(int time) ;
+	virtual TAG GetTag();
     virtual ARESULT Close() ;
 
 	 

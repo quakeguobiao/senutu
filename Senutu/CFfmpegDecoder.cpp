@@ -22,7 +22,7 @@ CFfmpegDecoder::CFfmpegDecoder(void)
 CFfmpegDecoder::~CFfmpegDecoder(void)
 {
     this->Close();
-    SAFE_DELETE(m_pwfx);
+    //SAFE_DELETE(m_pwfx);
 }
 
 ARESULT CFfmpegDecoder::Open( LPWSTR strFileName )
@@ -225,4 +225,16 @@ int CFfmpegDecoder::resizeArray( BYTE *&array,int fromSize,int toSize )
     SAFE_DELETE(array);
     array=newptr;
     return 0;
+}
+
+TAG CFfmpegDecoder::GetTag()
+{
+	TAG retVal;
+	retVal.Album  = pFormatContext->album;
+	retVal.Artist = pFormatContext->author;
+	retVal.Comment = pFormatContext->comment;
+	retVal.Genre = pFormatContext->genre;
+	retVal.Title = pFormatContext->title;
+	retVal.Year = pFormatContext->year;
+	return retVal;
 }

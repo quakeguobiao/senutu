@@ -1,3 +1,26 @@
+// console main function
+#include <QtGui/QApplication>
+#include <QTextCodec>
+#include "MainWindow.h"
+#include <QtCore\QString>
+#include <QTCore\QStdWString>
+
+ 
+
+int main(int argc, char *argv[])
+{
+	QString tmp = QString(argv[1]);
+	
+	CAudioCtrl::Open(const_cast<LPWSTR>(tmp.toStdWString().c_str()));
+	TAG ret = CAudioCtrl::GetTag();
+	
+
+///
+
+	return 0;
+}
+//qt main function
+/*
 #include <QtGui/QApplication>
 #include <QTextCodec>
 #include "MainWindow.h"
@@ -10,3 +33,4 @@ int main(int argc, char *argv[])
 	w.show();
 	return a.exec();
 }
+*/
