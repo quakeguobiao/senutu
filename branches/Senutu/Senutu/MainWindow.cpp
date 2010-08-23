@@ -25,11 +25,18 @@ Senutu::Senutu(QWidget *parent, Qt::WFlags flags): QMainWindow(parent, flags)
 
 void Senutu::open()
 {
-	QStringList files = QFileDialog::getOpenFileNames(this, tr("Select Music Files"),QDesktopServices::storageLocation(QDesktopServices::MusicLocation));
+	QFileDialog dialog(this);
+	dialog.setFileMode(QFileDialog::ExistingFiles);
+	QStringList files;
+	if (dialog.exec())
+		files = dialog.selectedFiles();
+	/*QStringList files = QFileDialog::getOpenFileNames();*/
 	if (files.isEmpty())
 		return;
 	foreach (QString string, files) {
-		char* strFileName = const_cast<char*>(string.toStdString().c_str());
+		/*LPWSTR fileName = const_cast<LPWSTR>(string.toStdWString().c_str());*/
+		std::string zizi = string.toStdString();
+		char* strFileName = const_cast<char*>(zizi.c_str());
 		int length = MultiByteToWideChar(CP_ACP, 0, strFileName, -1, NULL, 0); 
 		wchar_t * fileName = new wchar_t[length+1]; 
 		MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
@@ -37,6 +44,8 @@ void Senutu::open()
 		TAG musicInfo = CAudioCtrl::GetTag();
 		m_pPlayList->AddMusic(musicInfo);
 		CAudioCtrl::Close();
+	//	SAFE_DELETE_ARRAY(strFileName);   //delete resources
+		SAFE_DELETE_ARRAY(fileName);   //delete resources
 	}
 	m_MusicList.append(files);
 }

@@ -75,8 +75,8 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 	}
 
 	//load the tag information
-	mpg123_id3v1 * v1;
-	mpg123_id3v2 * v2;
+	mpg123_id3v1 * v1 = NULL;
+	mpg123_id3v2 * v2 = NULL;
 
 	if ((mpg123_meta_check(m_pMp3Handle) & MPG123_ID3) && mpg123_id3(m_pMp3Handle, &v1, &v2) == MPG123_OK) { //has some ID3 info, go ahead
 		if (v1){    //id3 v1 is not NULL
@@ -87,7 +87,7 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 			m_tag.Comment = v1->comment;
 			m_tag.Genre = v1->genre;
 		}
-		if (v2){
+		else if (v2){
 			m_tag.Title = v2->title->p;
 			m_tag.Artist = v2->artist->p;
 			m_tag.Album = v2->album->p;
@@ -95,8 +95,8 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 			m_tag.Comment = v2->comment->p;
 			m_tag.Genre = v2->genre->p;
 		}
-		SAFE_DELETE(v1);
-		SAFE_DELETE(v2);
+		//SAFE_DELETE(v1);
+		//SAFE_DELETE(v2);
 	}
 
 	m_pwfx->nChannels = channels;    
