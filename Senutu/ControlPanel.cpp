@@ -45,8 +45,10 @@ void ControlPanel::stop()
 
 
 	//for debugging
-
 	Lyrics * temp = new Lyrics("dd","dd");
-//temp->CreateQianQianCode("胡彦斌","男人KTV",286437);
-	temp->CreateQianQianCode("Nan", "Lonel", 58820);
+	//temp->CreateQianQianCode("Nan", "Lonel", 58820);
+
+	temp->SearchLyrics("胡彦斌","情不自禁");
+	temp->DownloadLyrics("胡彦斌","情不自禁");
+
 }

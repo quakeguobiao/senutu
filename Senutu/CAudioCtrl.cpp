@@ -22,7 +22,7 @@ CAudioCtrl::CAudioCtrl()
 	m_bToQuit = false;
 }
 
-ARESULT CAudioCtrl::Open( LPWSTR lpFileName )
+ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 {  
 	//TODO: exception handling
 
