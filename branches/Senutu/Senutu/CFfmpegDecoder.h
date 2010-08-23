@@ -26,7 +26,8 @@ public:
     virtual int GetCurTime() ;
     
     virtual ARESULT SetCurTime(int time);
-    virtual ARESULT Close()/* = 0*/;
+	virtual TAG GetTag();
+    virtual ARESULT Close();
     virtual ~CFfmpegDecoder(void);
     
 private:

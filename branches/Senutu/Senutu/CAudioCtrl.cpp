@@ -28,6 +28,21 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 
     ARESULT ar=AR_OK;
 
+	//try to open as *.ape
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+	m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
+
+	//try to open as *.wma ( or other formats ffmpeg supports)
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+	m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
 	//try to open as *.ogg
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
 	try{
@@ -48,13 +63,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
     if (ar==AR_OK)
         return AR_OK;
 
-	//try to open as *.ape
-	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-    m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
-    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-    if (ar==AR_OK)
-		return AR_OK;
-
+	
 	//try to open as *.flac
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
     m_pAudioCtrl->m_pIDecoder=new CFlacDecoder();
@@ -72,12 +81,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
             return AR_OK;
     }
 
-    //try to open as *.wma ( or other formats ffmpeg supports)
-    SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-    m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
-    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-    if (ar==AR_OK)
-        return AR_OK;
+    
     
     return AR_ERROR_OPEN_FILE;
 
@@ -188,6 +192,8 @@ int CAudioCtrl::playThread()
     }	
 	return 1;
 }
+
+
 
 TAG CAudioCtrl::GetTag()
 {

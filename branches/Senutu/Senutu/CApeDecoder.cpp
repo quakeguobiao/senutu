@@ -1,4 +1,5 @@
 #include "CApeDecoder.h"
+
 #include <iostream>
 //#include "debug_new.h" // +
 
@@ -24,8 +25,8 @@ ARESULT CApeDecoder::Open( LPWSTR strFileName )
     if (nRetVal!=0) {
         return AR_FORMAT_ERR;
     }
-    SAFE_DELETE(m_pwfx)
-        m_pwfx=new WAVEFORMATEX;
+    SAFE_DELETE(m_pwfx);
+    m_pwfx=new WAVEFORMATEX;
     m_pIAPE->GetInfo(APE_INFO_WAVEFORMATEX,(int)m_pwfx);
     XACtrl.SetFormat(m_pwfx);
 
@@ -150,4 +151,23 @@ ARESULT CApeDecoder::Close()
     XACtrl.FlushSourceBuffers();
     SAFE_DELETE(m_pIAPE);
     return AR_OK;
+}
+//helper function 
+static const char * safeGetTagField(CAPETag* pAPETag,const str_utf16 * fieldName) {
+	if (pAPETag->GetTagField(fieldName))
+		return pAPETag->GetTagField(fieldName)->GetFieldValue();
+	else return "";
+}
+
+TAG CApeDecoder::GetTag()
+{  
+  CAPETag * pAPETag = (CAPETag *) m_pIAPE->GetInfo(APE_INFO_TAG);
+  TAG retval;
+  retval.Album = safeGetTagField(pAPETag,L"album");
+  retval.Artist= safeGetTagField(pAPETag,L"artist");
+  retval.Comment = safeGetTagField(pAPETag,L"comment");
+  retval.Genre = safeGetTagField(pAPETag,L"genre");
+  retval.Title = safeGetTagField(pAPETag,L"title");
+  retval.Year = safeGetTagField(pAPETag,L"date");
+  return retval;
 }

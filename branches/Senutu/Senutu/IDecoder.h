@@ -18,7 +18,8 @@ struct TAG
 	TAG(string title, string artist, string album, string year, string comment, string genre):
 			Title(title),Artist(artist),Album(album),Comment(comment),Genre(genre)  {}
 };
-typedef struct TAG TAG;
+
+//typedef struct TAG TAG; 
 
 //----------------------------------------------------------------------------
 
@@ -50,7 +51,9 @@ public:
 	virtual float GetVolume();
 	virtual ARESULT SetVolume(float theVolume);
 
-	virtual TAG GetTag(){return m_tag;}
+	virtual TAG GetTag() {
+		return TAG();
+	}
 protected:
     WAVEFORMATEX * m_pwfx;       //pointer to waveformatex structure
     
@@ -62,7 +65,7 @@ protected:
     bool m_bIsPause;
     bool m_bIsStop;
 
-	TAG m_tag; //stores the tag info
+//	TAG m_tag; //stores the tag info
 };
 
 
