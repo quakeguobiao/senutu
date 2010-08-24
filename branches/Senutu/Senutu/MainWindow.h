@@ -14,15 +14,18 @@ class Senutu : public QMainWindow,public Ui::MainWindow
 	Q_OBJECT
 public:
 	Senutu(QWidget *parent = 0, Qt::WFlags flags = 0);
-	//~Senutu();
+	QStringList getMusicList();
+	int getCurrentIndex();
+	void setCurrentIndex(int index);
 
 private slots:
-	void open();
+	void openMusicFile();
 
 private:
 	ControlPanel *m_pControlPanel;
 	PlayList *m_pPlayList;
 	QStringList m_MusicList;
+	int m_currentIndex;
 
 	void createConnections();
 

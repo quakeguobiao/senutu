@@ -7,12 +7,23 @@
 
 #include "ui_PlayList.h"
 
+class Senutu;
+
 class PlayList:public QWidget,public Ui::PlayList
 {
 	Q_OBJECT
 public:
-	PlayList(QWidget* parent = 0);
+	PlayList(Senutu* parent);
+	~PlayList();
 	void AddMusic(TAG &musicInfo);
+
+private slots:
+	void TableDoubleClicked(int row, int column);
+
+private:
+	void createConnections();
+
+	Senutu* m_pSenutu;
 };
 
 

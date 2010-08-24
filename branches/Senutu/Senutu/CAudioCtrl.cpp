@@ -102,11 +102,13 @@ ARESULT CAudioCtrl::Sync()
 
 ARESULT CAudioCtrl::Play()
 {
+	m_pAudioCtrl->m_bToQuit = false;
 	ARESULT aresult = m_pAudioCtrl->m_pIDecoder->Play();
 	if (aresult != AR_OK)
 		return aresult;
-
+	
 	m_pAudioCtrl->m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,m_pAudioCtrl->playThreadHelper,(LPVOID)m_pAudioCtrl,0,(unsigned int*)&m_pAudioCtrl->m_dPlayThreadID);
+
 	if (FAILED(m_pAudioCtrl->m_hPlayThread))
 		return atrace_error(L"Fail to create a thread", AR_ERROR_WHILE_CREATING_THREAD);
 	
@@ -157,13 +159,20 @@ ARESULT CAudioCtrl::SetVolume(float theVolume)
 
 ARESULT CAudioCtrl::Stop()
 {
-    return m_pIDecoder->Stop();
+	if (m_pIDecoder)
+		return m_pIDecoder->Stop();
+	else
+		return AR_OK;
 }
 
 ARESULT CAudioCtrl::Close()
 {
-	m_pAudioCtrl->m_bToQuit = true;  //let the thread exit
-    return m_pIDecoder->Close();
+	if (m_pIDecoder) {
+		m_pAudioCtrl->m_bToQuit = true;  //let the thread exit
+		return m_pIDecoder->Close();
+	}
+	else
+		return AR_OK;
 }
 
 bool CAudioCtrl::checkExtension( LPCWSTR lpFileName,LPCWSTR lpExtName )
@@ -185,8 +194,11 @@ int CAudioCtrl::playThread()
 	while (!m_bToQuit) {
         Sync();
         Sleep(20);  //don't sleep more than the time buffered(500ms currently);
+		if (m_bToQuit)
+			break;
 		if (GetCurTime() >= GetFullTime()){
-			Close();   //the end of a song, close the file
+			Stop();
+			//Close();   //the end of a song, close the file
 			m_bToQuit = true;
 		}
     }	
