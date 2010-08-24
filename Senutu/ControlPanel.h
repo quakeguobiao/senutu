@@ -15,24 +15,27 @@ class ControlPanel:public QWidget,public Ui::ControlPanel
 {
 	Q_OBJECT
 public:
-	ControlPanel(Senutu* parent );
+	enum PlayState{Playing,Paused,Stopped};
+	ControlPanel(Senutu* parent);
 
 private slots:
-	void play();
-	//void pause();
+	void playORpause();
 	void stop();
 	//void rewind();
+	//void forward();
 	//void setvolume();
 	//void setposition();
 
 private:
-	//void createConnections();
+	void createConnections();
+	void play(int index);
 
 	Senutu* m_pSenutu;
-	QIcon m_PlayIcon;
-	QIcon m_PauseIcon;
-	QIcon m_VolumeIcon;
-	QIcon m_MuteIcon;
+	QIcon m_bPlayIcon;
+	QIcon m_bPauseIcon;
+	QIcon m_bVolumeIcon;
+	QIcon m_bMuteIcon;
+	ControlPanel::PlayState m_bPlayState;
 
 };
 

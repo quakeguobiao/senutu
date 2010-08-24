@@ -1,14 +1,16 @@
 #include <QtGui>
-#include <QtGui/QFileDialog>
-#include <QtGui/QDesktopServices>
+#include <QtGui/QDialog>
 #include <QtGui/QLayout>
+#include <string>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ControlPanel.h"
+#include "aerror.h"
 
 Senutu::Senutu(QWidget *parent, Qt::WFlags flags): QMainWindow(parent, flags)
 {
 	setupUi(this);
+	m_currentIndex = 0;
 	m_pControlPanel = new ControlPanel(this);
 	m_pPlayList = new PlayList(this);
 	QVBoxLayout *MainLayout = new QVBoxLayout;
@@ -18,23 +20,37 @@ Senutu::Senutu(QWidget *parent, Qt::WFlags flags): QMainWindow(parent, flags)
 	widget->setLayout(MainLayout);
 	setCentralWidget(widget);
 	m_MusicList.clear();
-	CAudioCtrl::Init();
 	createConnections();
+	CAudioCtrl::Init();
+
 
 }
 
-void Senutu::open()
+QStringList Senutu::getMusicList()
+{
+	return m_MusicList;
+}
+	
+int Senutu::getCurrentIndex()
+{
+	return m_currentIndex;
+}
+
+void Senutu::setCurrentIndex(int index)
+{
+	m_currentIndex = index;
+}
+
+void Senutu::openMusicFile()
 {
 	QFileDialog dialog(this);
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 	QStringList files;
 	if (dialog.exec())
-		files = dialog.selectedFiles();
-	/*QStringList files = QFileDialog::getOpenFileNames();*/
+		 files = dialog.selectedFiles();
 	if (files.isEmpty())
 		return;
 	foreach (QString string, files) {
-		/*LPWSTR fileName = const_cast<LPWSTR>(string.toStdWString().c_str());*/
 		std::string zizi = string.toStdString();
 		char* strFileName = const_cast<char*>(zizi.c_str());
 		int length = MultiByteToWideChar(CP_ACP, 0, strFileName, -1, NULL, 0); 
@@ -44,13 +60,15 @@ void Senutu::open()
 		TAG musicInfo = CAudioCtrl::GetTag();
 		m_pPlayList->AddMusic(musicInfo);
 		CAudioCtrl::Close();
-	//	SAFE_DELETE_ARRAY(strFileName);   //delete resources
+		//	SAFE_DELETE_ARRAY(strFileName);   //delete resources
 		SAFE_DELETE_ARRAY(fileName);   //delete resources
+	
 	}
 	m_MusicList.append(files);
+	m_currentIndex = 1;
 }
 
 void Senutu::createConnections()
 {
-	connect(m_pOpenAction,SIGNAL(triggered()),this,SLOT(open()));
+	connect(m_pOpenAction, SIGNAL(triggered()), this, SLOT(openMusicFile()));
 }
