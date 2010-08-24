@@ -125,7 +125,7 @@ ARESULT CFfmpegDecoder::Sync( int minBufTime/*=500*/,int MaxBufTime/*=1000*/,int
                     continue;
                 }
                 XAUDIO2_BUFFER *buffer=NULL;
-                buffer=new XAUDIO2_BUFFER;
+                buffer=new XAUDIO2_BUFFER()	;//< the () is very important !
 
                 buffer->pAudioData=new BYTE[AVCODEC_MAX_AUDIO_FRAME_SIZE];
                 int done=AVCODEC_MAX_AUDIO_FRAME_SIZE;
