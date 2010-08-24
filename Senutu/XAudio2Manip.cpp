@@ -1,6 +1,6 @@
 #include "XAudio2Manip.h"
 
-//Global Function
+//helper Function
 void SAFE_DELETE_XABUFFER(XAUDIO2_BUFFER *&buffer) {
     SAFE_DELETE(buffer->pAudioData)
     SAFE_DELETE(buffer->pContext);
