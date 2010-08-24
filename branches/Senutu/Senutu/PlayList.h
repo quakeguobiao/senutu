@@ -15,7 +15,7 @@ class PlayList:public QWidget,public Ui::PlayList
 public:
 	PlayList(Senutu* parent);
 	~PlayList();
-	void AddMusic(TAG &musicInfo);
+	void AddMusic(const TAG &musicInfo);
 
 private slots:
 	void TableDoubleClicked(int row, int column);
