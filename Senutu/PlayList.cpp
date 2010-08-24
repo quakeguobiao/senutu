@@ -19,7 +19,7 @@ PlayList::~PlayList()
 
 }
 
-void PlayList::AddMusic(TAG & musicInfo)
+void PlayList::AddMusic(const TAG & musicInfo)
 {
 	QTableWidgetItem *titleItem = new QTableWidgetItem;
 	titleItem->setText(QString(musicInfo.Title.c_str()));

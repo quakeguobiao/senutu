@@ -29,6 +29,7 @@ public:
 	virtual int GetFullTime();
 	virtual int GetCurTime();
 	virtual ARESULT SetCurTime(int time);
+	virtual TAG GetTag(){ return m_tag;}
 
 protected:
 	mpg123_handle * m_pMp3Handle;   //an instance of libmpg123 decoder
