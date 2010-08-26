@@ -39,16 +39,17 @@ void PlayList::TableDoubleClicked(int row,int column)
 	CAudioCtrl::Close();
 	int currentIndex = row + 1;
 	m_pSenutu->setCurrentIndex(currentIndex);
-	QStringList QFileNames = m_pSenutu->getMusicList();
-	QString QFileName = QFileNames[currentIndex-1];
-	std::string sFN = QFileName.toStdString();
-	char* strFileName = const_cast<char*>(sFN.c_str());
-	int length = MultiByteToWideChar(CP_ACP, 0, strFileName, -1, NULL, 0); 
-	wchar_t * fileName = new wchar_t[length+1]; 
-	MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
-	CAudioCtrl::Open(fileName);
-	CAudioCtrl::Play();
-	SAFE_DELETE_ARRAY(fileName);
+	//QStringList QFileNames = m_pSenutu->getMusicList();
+	//QString QFileName = QFileNames[currentIndex-1];
+	//std::string sFN = QFileName.toStdString();
+	//char* strFileName = const_cast<char*>(sFN.c_str());
+	//int length = MultiByteToWideChar(CP_ACP, 0, strFileName, -1, NULL, 0); 
+	//wchar_t * fileName = new wchar_t[length+1]; 
+	//MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
+	//CAudioCtrl::Open(fileName);
+	//CAudioCtrl::Play();
+	//SAFE_DELETE_ARRAY(fileName);
+	emit mediaSourceChanged(currentIndex);
 
 }
 
