@@ -17,6 +17,9 @@ public:
 	~PlayList();
 	void AddMusic(const TAG &musicInfo);
 
+signals:
+	void mediaSourceChanged(int index);
+
 private slots:
 	void TableDoubleClicked(int row, int column);
 

@@ -15,14 +15,18 @@ class ControlPanel:public QWidget,public Ui::ControlPanel
 {
 	Q_OBJECT
 public:
-	enum PlayState{Playing,Paused,Stopped};
+	enum PlayState{Playing,Paused,Stopped,Open};
 	ControlPanel(Senutu* parent);
+	void setPlayState(PlayState playstate);
+
+public slots:
+	void playMusic(int index);
 
 private slots:
 	void playORpause();
 	void stop();
-	//void rewind();
-	//void forward();
+	void rewind();
+	void forward();
 	//void setvolume();
 	//void setposition();
 

@@ -22,13 +22,16 @@ Senutu::Senutu(QWidget *parent, Qt::WFlags flags): QMainWindow(parent, flags)
 	m_MusicList.clear();
 	createConnections();
 	CAudioCtrl::Init();
-
-
 }
 
 QStringList Senutu::getMusicList()
 {
 	return m_MusicList;
+}
+
+int Senutu::getCount()
+{
+	return m_MusicList.count();
 }
 	
 int Senutu::getCurrentIndex()
@@ -64,11 +67,14 @@ void Senutu::openMusicFile()
 		SAFE_DELETE_ARRAY(fileName);   //delete resources
 	
 	}
+	if(m_MusicList.count() == 0)
+		m_currentIndex = 1;
 	m_MusicList.append(files);
-	m_currentIndex = 1;
+	m_pControlPanel->setPlayState(ControlPanel::Open);
 }
 
 void Senutu::createConnections()
 {
 	connect(m_pOpenAction, SIGNAL(triggered()), this, SLOT(openMusicFile()));
+	connect(m_pPlayList,SIGNAL(mediaSourceChanged(int)),m_pControlPanel,SLOT(playMusic(int)));
 }

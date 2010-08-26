@@ -15,6 +15,7 @@ class Senutu : public QMainWindow,public Ui::MainWindow
 public:
 	Senutu(QWidget *parent = 0, Qt::WFlags flags = 0);
 	QStringList getMusicList();
+	int getCount();
 	int getCurrentIndex();
 	void setCurrentIndex(int index);
 
