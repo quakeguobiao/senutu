@@ -23,6 +23,7 @@ signals:
 private slots:
 	void TableDoubleClicked(int row, int column);
 
+
 private:
 	void createConnections();
 

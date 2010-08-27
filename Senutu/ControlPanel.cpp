@@ -11,6 +11,7 @@ ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
 {
 	setupUi(this);
 	m_pSenutu = parent;
+	m_bTimeID = 0;
 	m_bPlayState = ControlPanel::Open;
 	m_bPlayIcon = style()->standardIcon(QStyle::SP_MediaPlay);
 	m_bPauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
@@ -32,7 +33,7 @@ ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
 
 	SenutuStyle *style = new SenutuStyle;
 	m_pVolumeSlider->setStyle(style);
-	delete style;
+	m_pVolumeSlider->setRange(0,100);
 	m_pPlayInfo->setStyleSheet("border-image:url(:/res/images/screen.png) ; border-width:3px");
 	m_pPlayInfo->setText(tr("<center>No media</center>"));
 
@@ -45,6 +46,8 @@ void ControlPanel::setPlayState(PlayState playstate)
 	switch (playstate){
 		case Playing:
 		{
+			if (!m_bTimeID)
+				m_bTimeID = QObject::startTimer(1000/20);
 			m_bPlayState = ControlPanel::Playing;
 			m_pPlayButton->setIcon(m_bPauseIcon);
 			m_pPlayButton->setEnabled(true);
@@ -83,6 +86,19 @@ void ControlPanel::setPlayState(PlayState playstate)
 		default:
 			;
 	}
+}
+
+void ControlPanel::timerEvent(QTimerEvent *event)
+{
+	if (event->timerId() == m_bTimeID) 
+	{
+		if(m_bPlayState == ControlPanel::Playing)
+		{
+			m_pSeekSlider->setValue(CAudioCtrl::GetCurTime());
+		}
+	}
+	QObject::timerEvent(event);
+
 }
 
 void ControlPanel::playMusic(int index)
@@ -213,6 +229,14 @@ void ControlPanel::forward()
 	}
 }
 
+void ControlPanel::SeekSliderMoved(int move)
+{
+	if( m_bPlayState == ControlPanel::Playing)
+	{
+		CAudioCtrl::SetCurTime(move);
+	}
+}
+
 void ControlPanel::play(int index)
 {
 	QStringList QFileNames = m_pSenutu->getMusicList();
@@ -223,6 +247,8 @@ void ControlPanel::play(int index)
 	wchar_t * fileName = new wchar_t[length+1]; 
 	MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
 	CAudioCtrl::Open(fileName);
+	int time = CAudioCtrl::GetFullTime();
+	m_pSeekSlider->setRange(0,time);
 	CAudioCtrl::Play();
 	SAFE_DELETE_ARRAY(fileName);
 }
@@ -233,4 +259,5 @@ void ControlPanel::createConnections()
 	connect(m_pStopButton,SIGNAL(clicked()),this,SLOT(stop()));
 	connect(m_pRewindButton,SIGNAL(clicked()),this,SLOT(rewind()));
 	connect(m_pForwardButton,SIGNAL(clicked()),this,SLOT(forward()));
+	connect(m_pSeekSlider,SIGNAL(sliderMoved(int)),this,SLOT(SeekSliderMoved(int)));
 }

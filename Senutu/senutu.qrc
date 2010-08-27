@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/res">
-        <file>images/slider_thumb_on.png</file>
         <file>images/screen.png</file>
         <file>images/slider_bar.png</file>
+        <file>images/slider_thumb_on.png</file>
     </qresource>
 </RCC>
