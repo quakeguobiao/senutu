@@ -29,8 +29,8 @@ private slots:
 	void rewind();
 	void forward();
 	void SeekSliderMoved(int move);
-	//void setvolume();
-	//void setposition();
+	void volumeORmute();
+	void volumeSliderMoved(int move);
 
 private:
 	void createConnections();
@@ -38,6 +38,8 @@ private:
 
 	Senutu* m_pSenutu;
 	int m_bTimeID;
+	bool m_bIsMute;
+	float m_bVolume;
 	QIcon m_bPlayIcon;
 	QIcon m_bPauseIcon;
 	QIcon m_bVolumeIcon;
