@@ -12,6 +12,8 @@ ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
 	setupUi(this);
 	m_pSenutu = parent;
 	m_bTimeID = 0;
+	m_bVolume = 2;
+	m_bIsMute = false;
 	m_bPlayState = ControlPanel::Open;
 	m_bPlayIcon = style()->standardIcon(QStyle::SP_MediaPlay);
 	m_bPauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
@@ -33,7 +35,8 @@ ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
 
 	SenutuStyle *style = new SenutuStyle;
 	m_pVolumeSlider->setStyle(style);
-	m_pVolumeSlider->setRange(0,100);
+	m_pVolumeSlider->setRange(0,10);
+	m_pVolumeSlider->setValue(m_bVolume);
 	m_pPlayInfo->setStyleSheet("border-image:url(:/res/images/screen.png) ; border-width:3px");
 	m_pPlayInfo->setText(tr("<center>No media</center>"));
 
@@ -237,6 +240,29 @@ void ControlPanel::SeekSliderMoved(int move)
 	}
 }
 
+void ControlPanel::volumeORmute()
+{
+	if(m_bIsMute == false)
+	{
+		m_bIsMute = true;
+		m_pVolumeState->setIcon(m_bMuteIcon);
+		m_bVolume = CAudioCtrl::GetVolume();
+		CAudioCtrl::SetVolume(0);
+	}
+	else
+	{
+		m_bIsMute = false;
+		m_pVolumeState->setIcon(m_bVolumeIcon);
+		CAudioCtrl::SetVolume(m_bVolume);
+	}
+}
+
+void ControlPanel::volumeSliderMoved(int move)
+{
+	CAudioCtrl::SetVolume(move);
+	m_bVolume = move;
+}
+
 void ControlPanel::play(int index)
 {
 	QStringList QFileNames = m_pSenutu->getMusicList();
@@ -250,6 +276,7 @@ void ControlPanel::play(int index)
 	int time = CAudioCtrl::GetFullTime();
 	m_pSeekSlider->setRange(0,time);
 	CAudioCtrl::Play();
+	CAudioCtrl::SetVolume(m_bVolume);
 	SAFE_DELETE_ARRAY(fileName);
 }
 
@@ -259,5 +286,7 @@ void ControlPanel::createConnections()
 	connect(m_pStopButton,SIGNAL(clicked()),this,SLOT(stop()));
 	connect(m_pRewindButton,SIGNAL(clicked()),this,SLOT(rewind()));
 	connect(m_pForwardButton,SIGNAL(clicked()),this,SLOT(forward()));
+	connect(m_pVolumeState,SIGNAL(clicked()),this,SLOT(volumeORmute()));
 	connect(m_pSeekSlider,SIGNAL(sliderMoved(int)),this,SLOT(SeekSliderMoved(int)));
+	connect(m_pVolumeSlider,SIGNAL(sliderMoved(int)),this,SLOT(volumeSliderMoved(int)));
 }
