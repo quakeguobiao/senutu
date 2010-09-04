@@ -34,3 +34,4 @@ ARESULT IDecoder::Pause()
     m_bIsPlaying = false;
     return AR_OK;
 }
+

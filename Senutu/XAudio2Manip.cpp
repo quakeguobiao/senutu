@@ -1,5 +1,5 @@
 #include "XAudio2Manip.h"
-
+#include <XAPOFX.h>
 //helper Function
 void SAFE_DELETE_XABUFFER(XAUDIO2_BUFFER *&buffer) {
     SAFE_DELETE(buffer->pAudioData)
@@ -28,7 +28,7 @@ XAudio2Manip::XAudio2Manip()
 		throw(AR_CO_E_NOTINITIALIZED); // fail to create an XAudio2 instance
     hr = m_pXAudio2->CreateMasteringVoice(&m_pMasteringVoice);
 	if (FAILED(hr))
-		throw(AR_ERROR_MASTERVOICE); //fail to create mastering voice
+		throw(AR_ERROR_MASTERVOICE); //fail to create mastering voice	
 }
 
 XAudio2Manip::~XAudio2Manip()
@@ -36,7 +36,8 @@ XAudio2Manip::~XAudio2Manip()
     if (m_pSourceVoice)
 		m_pSourceVoice->DestroyVoice();
     if (m_pMasteringVoice)
-		m_pMasteringVoice->DestroyVoice();
+		m_pMasteringVoice->DestroyVoice();	
+	
     SAFE_RELEASE(m_pXAudio2);
     CoUninitialize();
 //  SAFE_DELETE(m_pSourceVoice);
@@ -50,7 +51,7 @@ ARESULT XAudio2Manip::SetFormat( WAVEFORMATEX *pwfx )
     if (m_pSourceVoice !=NULL) 
         m_pSourceVoice->DestroyVoice();
     HRESULT hr;
-	if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&m_pSourceVoice,pwfx)))
+	if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&m_pSourceVoice,pwfx,0,2.0,0,0,0)))
 		return atrace_error(L"Error creating source voice",AR_ERROR_SRCVOICE);
     if (FAILED(hr = m_pSourceVoice->Start(0)))
 		return atrace_error(L"Error submitting source voice",AR_ERROR_SRCVOICE);
@@ -138,3 +139,4 @@ ARESULT XAudio2Manip::SetVolume(float theVolume)
 	else
 		return AR_OK;
 }
+

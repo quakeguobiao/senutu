@@ -38,9 +38,12 @@ public:
     
     static bool isPlaying() {return m_pIDecoder->isPlaying();}
     static bool isPause() {return m_pIDecoder->isPause();}
+	
+	
 
 	//NOTE:call this after Open()!
 	static TAG GetTag();
+	
 
 private:
 	CAudioCtrl();

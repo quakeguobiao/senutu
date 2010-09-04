@@ -37,6 +37,7 @@ public :
   }
   
   float GetVolume();
+  
   ARESULT SetVolume(float theVolume);
   UINT64 bufferedBytes() {
     int ret=0;
@@ -55,7 +56,6 @@ protected :
       deque<XAUDIO2_BUFFER *>m_qBufferToPlay;//buffer to be played
       deque<XAUDIO2_BUFFER *>m_qBufferToRelease;//buffers to be released
 	  UINT64 ui64_SamplesPlayed;
-     
 };
 
 #endif //XAUDIO2_H
