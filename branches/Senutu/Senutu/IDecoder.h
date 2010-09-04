@@ -50,10 +50,12 @@ public:
 
 	virtual float GetVolume();
 	virtual ARESULT SetVolume(float theVolume);
-
+    
 	virtual TAG GetTag() {
 		return TAG();
 	}
+	
+
 protected:
     WAVEFORMATEX * m_pwfx;       //pointer to waveformatex structure
     
