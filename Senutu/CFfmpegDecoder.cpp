@@ -185,7 +185,7 @@ ARESULT CFfmpegDecoder::SetCurTime( int time ) /* = 0*/
     timestamp=min(timestamp,pFormatContext->streams[nAudioStream]->duration);
     XACtrl.Stop();
     XACtrl.FlushSourceBuffers();
-    int ret=av_seek_frame(pFormatContext,nAudioStream,timestamp,AVSEEK_FLAG_BACKWARD);
+    int ret=av_seek_frame(pFormatContext,nAudioStream,timestamp,0/*AVSEEK_FLAG_BACKWARD*/);
     if (ret>=0)
         ar= AR_OK;
     /*

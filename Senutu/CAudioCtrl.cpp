@@ -29,6 +29,20 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 
     ARESULT ar=AR_OK;
 
+	//try to open as *.ape
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+	m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
+	//try to open as *.wma ( or other formats ffmpeg supports)
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+	m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
 	//try to open as *.ogg
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
 	try{
@@ -49,12 +63,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
     if (ar==AR_OK)
         return AR_OK;
 
-	//try to open as *.ape
-	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-    m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
-    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-    if (ar==AR_OK)
-		return AR_OK;
+	
 
 	//try to open as *.flac
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
@@ -73,12 +82,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
             return AR_OK;
     }
 
-    //try to open as *.wma ( or other formats ffmpeg supports)
-    SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-    m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
-    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-    if (ar==AR_OK)
-        return AR_OK;
+    
     
     return AR_ERROR_OPEN_FILE;
 
@@ -95,7 +99,9 @@ void CAudioCtrl::Free()
 
 ARESULT CAudioCtrl::Sync()
 {
-    return m_pAudioCtrl->m_pIDecoder->Sync();
+	if (m_pIDecoder)
+		return m_pAudioCtrl->m_pIDecoder->Sync();
+	else return AR_E_FAIL;
 }
 
 ARESULT CAudioCtrl::Play()
@@ -105,7 +111,7 @@ ARESULT CAudioCtrl::Play()
 	if (aresult != AR_OK)
 		return aresult;
 	
-	m_pAudioCtrl->m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,m_pAudioCtrl->playThreadHelper,(LPVOID)m_pAudioCtrl,0,(unsigned int*)&m_pAudioCtrl->m_dPlayThreadID);
+	//m_pAudioCtrl->m_hPlayThread = (HANDLE)_beginthreadex(NULL,0,m_pAudioCtrl->playThreadHelper,(LPVOID)m_pAudioCtrl,0,(unsigned int*)&m_pAudioCtrl->m_dPlayThreadID);
 
 	if (FAILED(m_pAudioCtrl->m_hPlayThread))
 		return atrace_error(L"Fail to create a thread", AR_ERROR_WHILE_CREATING_THREAD);
@@ -141,7 +147,8 @@ ARESULT CAudioCtrl::Pause()
 
 ARESULT CAudioCtrl::SetCurTime( int time )
 {
-    m_pAudioCtrl->m_pIDecoder->SetCurTime(time);
+	if (CAudioCtrl::isPlaying())
+		m_pAudioCtrl->m_pIDecoder->SetCurTime(time);
     return AR_OK;
 }
 

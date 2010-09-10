@@ -133,7 +133,7 @@
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				IgnoreDefaultLibraryNames="libcmt.lib;libcmtd.lib;msvcrt.lib;"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -599,10 +599,10 @@
 			SourceControlFiles="false"
 			>
 			<File
-				RelativePath=".\GeneratedFiles\Debug\moc_ControlPanel.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -611,10 +611,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_ControlPanel.cpp"
+				RelativePath=".\GeneratedFiles\Debug\moc_ControlPanel.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -635,10 +635,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Debug\moc_Menu.cpp"
+				RelativePath=".\GeneratedFiles\Release\moc_Menu.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -647,10 +647,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\Release\moc_Menu.cpp"
+				RelativePath=".\GeneratedFiles\Debug\moc_Menu.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -708,6 +708,10 @@
 		<Global
 			Name="QtVersion"
 			Value="4.6.2"
+		/>
+		<Global
+			Name="QtVersion Win32"
+			Value="4.6.3"
 		/>
 		<Global
 			Name="RccDir"

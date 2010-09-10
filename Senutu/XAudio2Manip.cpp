@@ -120,8 +120,12 @@ ARESULT XAudio2Manip::FlushSourceBuffers()
 int XAudio2Manip::bufferedTime()
 {
    static XAUDIO2_VOICE_STATE vs;
-   m_pSourceVoice->GetState(&vs);
-   return (vs.BuffersQueued+m_qBufferToPlay.size()) * DEFAULT_BUFFER_SPAN;  
+   if (m_pSourceVoice) {
+     m_pSourceVoice->GetState(&vs);
+		return (vs.BuffersQueued+m_qBufferToPlay.size()) * DEFAULT_BUFFER_SPAN;  
+   } else {
+	   return 0;
+   }
 }
 
 float XAudio2Manip::GetVolume()
@@ -133,10 +137,14 @@ float XAudio2Manip::GetVolume()
 
 ARESULT XAudio2Manip::SetVolume(float theVolume)
 {
-	HRESULT hr = m_pSourceVoice->SetVolume(theVolume);
-	if (FAILED(hr))
-		return atrace_error(L"Error setting volume",AR_ERROR_SRCVOICE)
-	else
+	if (m_pSourceVoice) {
+		HRESULT hr = m_pSourceVoice->SetVolume(theVolume);
+		if (FAILED(hr))
+			return atrace_error(L"Error setting volume",AR_ERROR_SRCVOICE)
+		else
 		return AR_OK;
+	} else {
+		return AR_ERROR_MASTERVOICE;
+	}
 }
 

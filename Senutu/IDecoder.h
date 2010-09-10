@@ -6,8 +6,9 @@
 #include "XAudio2Manip.h"
 
 //This struct defines the tag. e.g. ID3, APE tag, WMA tag...
-struct TAG
+class TAG
 {
+public :
 	string Title;
 	string Artist;
 	string Album;
@@ -63,9 +64,9 @@ protected:
     XAudio2Manip XACtrl;     //an instance of XAudio2Manip
 
 	//playing status
-    bool m_bIsPlaying;
-    bool m_bIsPause;
-    bool m_bIsStop;
+    volatile bool m_bIsPlaying;
+    volatile bool m_bIsPause;
+    volatile bool m_bIsStop;
 
 //	TAG m_tag; //stores the tag info
 };

@@ -33,7 +33,7 @@ int Senutu::getCount()
 {
 	return m_MusicList.count();
 }
-	
+
 int Senutu::getCurrentIndex()
 {
 	return m_currentIndex;
@@ -50,7 +50,7 @@ void Senutu::openMusicFile()
 	dialog.setFileMode(QFileDialog::ExistingFiles);
 	QStringList files;
 	if (dialog.exec())
-		 files = dialog.selectedFiles();
+		files = dialog.selectedFiles();
 	if (files.isEmpty())
 		return;
 	foreach (QString string, files) {
@@ -65,7 +65,7 @@ void Senutu::openMusicFile()
 		CAudioCtrl::Close();
 		//	SAFE_DELETE_ARRAY(strFileName);   //delete resources
 		SAFE_DELETE_ARRAY(fileName);   //delete resources
-	
+
 	}
 	if(m_MusicList.count() == 0)
 		m_currentIndex = 1;

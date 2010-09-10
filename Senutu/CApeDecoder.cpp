@@ -54,7 +54,7 @@ ARESULT CApeDecoder::Sync( int minBufTime/*=500*/,int MaxBufTime/*=1000*/ ,int B
     if (m_bIsPlaying) {
         //cout<<XACtrl.bufferedTime()<<endl;
         while (XACtrl.bufferedTime()<minBufTime) {
-            XAUDIO2_BUFFER *buffer = new XAUDIO2_BUFFER;
+            XAUDIO2_BUFFER *buffer = new XAUDIO2_BUFFER();
            // memset(&buffer,0,sizeof(XAUDIO2_BUFFER));
             int done=0;
 
@@ -65,8 +65,6 @@ ARESULT CApeDecoder::Sync( int minBufTime/*=500*/,int MaxBufTime/*=1000*/ ,int B
             buffer->AudioBytes = done*m_pwfx->nBlockAlign;
             if (done>0) {
                 XACtrl.SubmitSourceBuffer(buffer);   
-
-
             }else {
                 SAFE_DELETE_XABUFFER(buffer);
                 if (XACtrl.bufferedTime()==0) {
