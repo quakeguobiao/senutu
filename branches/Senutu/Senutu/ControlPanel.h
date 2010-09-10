@@ -31,6 +31,8 @@ private slots:
 	void SeekSliderMoved(int move);
 	void volumeORmute();
 	void volumeSliderMoved(int move);
+	void SeekSliderPressed();
+	void SeekSliderReleased();
 
 private:
 	void createConnections();
@@ -45,6 +47,11 @@ private:
 	QIcon m_bVolumeIcon;
 	QIcon m_bMuteIcon;
 	ControlPanel::PlayState m_bPlayState;
+	int m_sliderPos;
+	bool _isSliderDragging;
+
+	private slots:
+		void sync();
 
 };
 

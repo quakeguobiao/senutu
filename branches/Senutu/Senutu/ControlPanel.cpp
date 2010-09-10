@@ -7,7 +7,8 @@
 #include "MainWindow.h"
 #include "aerror.h"
 
-ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
+ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent),
+_isSliderDragging(false)
 {
 	setupUi(this);
 	m_pSenutu = parent;
@@ -41,6 +42,10 @@ ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent)
 	m_pPlayInfo->setText(tr("<center>No media</center>"));
 
 	ControlPanel::createConnections();
+	//set up the sync loop
+	QTimer * syncTimer = new QTimer(this);
+	syncTimer->start(20);
+	connect(syncTimer,SIGNAL(timeout()),this,SLOT(sync()));
 }
 
 void ControlPanel::setPlayState(PlayState playstate)
@@ -93,11 +98,13 @@ void ControlPanel::setPlayState(PlayState playstate)
 
 void ControlPanel::timerEvent(QTimerEvent *event)
 {
+	
 	if (event->timerId() == m_bTimeID) 
 	{
-		if(m_bPlayState == ControlPanel::Playing)
+		if(m_bPlayState == ControlPanel::Playing )
 		{
-			m_pSeekSlider->setValue(CAudioCtrl::GetCurTime());
+			if (!_isSliderDragging)
+				m_pSeekSlider->setValue(CAudioCtrl::GetCurTime());
 		}
 	}
 	QObject::timerEvent(event);
@@ -189,6 +196,7 @@ void ControlPanel::stop()
 		//m_pStopButton->setEnabled(false);
 		setPlayState(Stopped);
 		CAudioCtrl::Stop();
+		m_pSeekSlider->setValue(0);
 	}
 }
 
@@ -234,10 +242,12 @@ void ControlPanel::forward()
 
 void ControlPanel::SeekSliderMoved(int move)
 {
+	m_sliderPos = move;
+	/*
 	if( m_bPlayState == ControlPanel::Playing)
 	{
 		CAudioCtrl::SetCurTime(move);
-	}
+	}*/
 }
 
 void ControlPanel::volumeORmute()
@@ -280,6 +290,11 @@ void ControlPanel::play(int index)
 	SAFE_DELETE_ARRAY(fileName);
 }
 
+void ControlPanel::SeekSliderReleased() {
+	_isSliderDragging=false;
+	CAudioCtrl::SetCurTime(m_sliderPos);
+}
+
 void ControlPanel::createConnections()
 {
 	connect(m_pPlayButton,SIGNAL(clicked()),this,SLOT(playORpause()));
@@ -288,5 +303,17 @@ void ControlPanel::createConnections()
 	connect(m_pForwardButton,SIGNAL(clicked()),this,SLOT(forward()));
 	connect(m_pVolumeState,SIGNAL(clicked()),this,SLOT(volumeORmute()));
 	connect(m_pSeekSlider,SIGNAL(sliderMoved(int)),this,SLOT(SeekSliderMoved(int)));
+	connect(m_pSeekSlider,SIGNAL(sliderReleased()),this,SLOT(SeekSliderReleased()));
+	connect(m_pSeekSlider,SIGNAL(sliderPressed()),this,SLOT(SeekSliderPressed()));
 	connect(m_pVolumeSlider,SIGNAL(sliderMoved(int)),this,SLOT(volumeSliderMoved(int)));
+}
+
+void ControlPanel::SeekSliderPressed()
+{
+	_isSliderDragging=true;
+}
+
+void ControlPanel::sync()
+{
+	CAudioCtrl::Sync();
 }

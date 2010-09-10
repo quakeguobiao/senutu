@@ -36,8 +36,16 @@ public:
 	static int GetCurTime();    
 	static ARESULT SetCurTime(int time);
     
-    static bool isPlaying() {return m_pIDecoder->isPlaying();}
-    static bool isPause() {return m_pIDecoder->isPause();}
+    static bool isPlaying() {
+		if (m_pIDecoder)
+			return m_pIDecoder->isPlaying();
+		else return false;
+	}
+    static bool isPause() {
+		if (m_pIDecoder)
+			return m_pIDecoder->isPause();
+		else return true;
+	}
 	
 	
 
@@ -65,7 +73,7 @@ private:
 	//multi-threaded implementation of play method;
 	int playThread();
 
-	bool m_bToQuit;
+	volatile bool m_bToQuit;
 };
 
 
