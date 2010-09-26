@@ -86,4 +86,5 @@ void Senutu::createConnections()
 	connect(m_pOpenAction, SIGNAL(triggered()), this, SLOT(openMusicFile()));
 	connect(m_pPlayList,SIGNAL(mediaSourceChanged(int)),m_pControlPanel,SLOT(playMusic(int)));
 	connect(m_pPlayList,SIGNAL(currentIndexChanged()),m_pControlPanel,SLOT(currentIndexChanged()));
+	connect(m_pControlPanel,SIGNAL(rewindOrForward(int)),m_pPlayList,SLOT(rewindOrForward(int)));
 }

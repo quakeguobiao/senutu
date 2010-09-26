@@ -64,6 +64,11 @@ void PlayList::TableDoubleClicked(int row,int column)
 
 }
 
+void PlayList::rewindOrForward(int index)
+{
+	m_pMusicTable->setCurrentCell(index-1,0);
+}
+
 void PlayList::TableClicked(int row, int column)
 {
 	int currentIndex = row + 1;
