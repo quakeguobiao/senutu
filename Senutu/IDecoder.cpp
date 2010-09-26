@@ -35,3 +35,16 @@ ARESULT IDecoder::Pause()
     return AR_OK;
 }
 
+string IDecoder::MilliSecondToString(int ms)
+{
+	int totalTime = GetFullTime();
+	int hour = totalTime / 3600000;
+	int minute = totalTime / 60000;
+	int second = totalTime / 1000 - hour * 3600 - minute * 60;
+	char result[10];
+	if (hour > 0)
+		sprintf(result,"%d%s%d%s%d",hour,":",minute,":",second);
+	else
+		sprintf(result,"%d%s%d",minute,":",second);
+	return string(result);
+}

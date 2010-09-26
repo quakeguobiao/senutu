@@ -59,12 +59,20 @@ void Senutu::openMusicFile()
 		int length = MultiByteToWideChar(CP_ACP, 0, strFileName, -1, NULL, 0); 
 		wchar_t * fileName = new wchar_t[length+1]; 
 		MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
-		CAudioCtrl::Open(fileName);
-		TAG musicInfo = CAudioCtrl::GetTag();
-		m_pPlayList->AddMusic(musicInfo);
-		CAudioCtrl::Close();
-		//	SAFE_DELETE_ARRAY(strFileName);   //delete resources
-		SAFE_DELETE_ARRAY(fileName);   //delete resources
+		if (CAudioCtrl::Open(fileName) == AR_OK) {    //add it to the playlist only when it has been opened correctly
+			TAG musicInfo = CAudioCtrl::GetTag();
+			if (musicInfo.Title == "") { //if the tag is empty,display the file name
+				musicInfo.Title = strFileName;
+				size_t pos1 = musicInfo.Title.find_last_of('//');
+				if (pos1 == std::string::npos)
+					pos1 = musicInfo.Title.find_last_of('\\');
+				size_t pos2 = musicInfo.Title.find_last_of('.');
+				musicInfo.Title = musicInfo.Title.substr(pos1+1,pos2-pos1-1);
+			}
+			m_pPlayList->AddMusic(musicInfo);
+			CAudioCtrl::Close();
+			SAFE_DELETE_ARRAY(fileName);   //delete resources
+		}
 
 	}
 	if(m_MusicList.count() == 0)
