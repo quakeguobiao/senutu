@@ -21,6 +21,8 @@ signals:
 	void mediaSourceChanged(int index);
 	void currentIndexChanged();
 
+public slots:
+	void rewindOrForward(int index);
 private slots:
 	void TableDoubleClicked(int row, int column);
 	void TableClicked(int row, int column);

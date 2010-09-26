@@ -214,16 +214,16 @@ void ControlPanel::rewind()
 	{
 		m_pForwardButton ->setEnabled(true);
 	}
-	if( currentIndex <= 1)
+	if( currentIndex <= 2)
 	{
 		m_pRewindButton->setEnabled(false);	
 	}
-	else 
-	{
+	if( currentIndex >1 )
 		currentIndex = currentIndex - 1;
-		setPlayState(Stopped);
-		ControlPanel::play(currentIndex);
-	}
+	m_pSenutu->setCurrentIndex(currentIndex);
+	setPlayState(Stopped);
+	ControlPanel::play(currentIndex);
+	emit rewindOrForward(currentIndex);
 }
 
 void ControlPanel::forward()
@@ -234,16 +234,16 @@ void ControlPanel::forward()
 	{
 		m_pRewindButton ->setEnabled(true);
 	}
-	if( currentIndex >= m_pSenutu->getCount())
+	if( currentIndex >= m_pSenutu->getCount()-1)
 	{
 		m_pForwardButton->setEnabled(false);	
 	}
-	else 
-	{
+	if(currentIndex < m_pSenutu->getCount())
 		currentIndex = currentIndex + 1;
-		setPlayState(Playing);
-		ControlPanel::play(currentIndex);
-	}
+	m_pSenutu->setCurrentIndex(currentIndex);
+	setPlayState(Stopped);
+	ControlPanel::play(currentIndex);
+	emit rewindOrForward(currentIndex);
 }
 
 void ControlPanel::SeekSliderMoved(int move)

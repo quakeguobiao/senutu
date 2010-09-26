@@ -20,6 +20,8 @@ public:
 	void setPlayState(PlayState playstate);
 	void timerEvent(QTimerEvent *event);
 
+signals:
+	void rewindOrForward(int index);
 public slots:
 	void playMusic(int index);
 	void currentIndexChanged();
