@@ -22,6 +22,7 @@ public:
 
 public slots:
 	void playMusic(int index);
+	void currentIndexChanged();
 
 private slots:
 	void playORpause();

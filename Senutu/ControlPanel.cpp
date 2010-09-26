@@ -105,6 +105,7 @@ void ControlPanel::timerEvent(QTimerEvent *event)
 		{
 			if (!_isSliderDragging)
 				m_pSeekSlider->setValue(CAudioCtrl::GetCurTime());
+			
 		}
 	}
 	QObject::timerEvent(event);
@@ -133,6 +134,10 @@ void ControlPanel::playMusic(int index)
 	ControlPanel::play(index);
 }
 
+void ControlPanel::currentIndexChanged()
+{
+	setPlayState(ControlPanel::Open);
+}
 
 void ControlPanel::playORpause()
 {
@@ -159,7 +164,8 @@ void ControlPanel::playORpause()
 		int currentIndex = m_pSenutu->getCurrentIndex();
 		if( currentIndex > 0 )
 		{
-			int currentIndex = m_pSenutu->getCurrentIndex();
+			CAudioCtrl::Close();
+			//int currentIndex = m_pSenutu->getCurrentIndex();
 			//m_bPlayState = ControlPanel::Playing;
 			//m_pPlayButton->setIcon(m_bPauseIcon);
 			//m_pPlayButton->setEnabled(true);
