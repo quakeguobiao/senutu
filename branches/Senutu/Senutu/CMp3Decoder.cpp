@@ -95,8 +95,7 @@ ARESULT CMp3Decoder::Open(LPWSTR strFileName)
 			m_tag.Comment = v2->comment->p;
 			m_tag.Genre = v2->genre->p;
 		}
-		//SAFE_DELETE(v1);
-		//SAFE_DELETE(v2);
+		m_tag.TotalTime = GetFullTimeSerialized();
 	}
 
 	m_pwfx->nChannels = channels;    

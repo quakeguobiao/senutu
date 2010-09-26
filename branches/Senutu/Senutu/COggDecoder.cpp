@@ -39,7 +39,7 @@ ARESULT COggDecoder::Open(LPWSTR strFileName)
 	//test tbd
 
 	vorbis_info *vi=ov_info(m_pvf,-1);                 //pull the channel and bitrate info from the file 
-
+	
 	m_pwfx->nChannels = vi->channels;    
 	m_pwfx->nSamplesPerSec = vi->rate;
 	m_pwfx->wBitsPerSample = 16;   //TBD

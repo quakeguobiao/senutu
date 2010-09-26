@@ -236,5 +236,6 @@ TAG CFfmpegDecoder::GetTag()
 	retVal.Genre = pFormatContext->genre;
 	retVal.Title = pFormatContext->title;
 	retVal.Year = pFormatContext->year;
+	retVal.TotalTime = GetFullTimeSerialized();
 	return retVal;
 }

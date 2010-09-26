@@ -15,14 +15,13 @@ public :
 	string Year;
 	string Comment;
 	string Genre;
+	string TotalTime;
 	TAG() {}
-	TAG(string title, string artist, string album, string year, string comment, string genre):
-			Title(title),Artist(artist),Album(album),Comment(comment),Genre(genre)  {}
+	TAG(string title, string artist, string album, string year, string comment, string genre,string totalTime):
+			Title(title),Artist(artist),Album(album),Comment(comment),Genre(genre), TotalTime(totalTime)  {}
 };
 
-//typedef struct TAG TAG; 
 
-//----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Name: class IDecoder
@@ -41,9 +40,13 @@ public:
     virtual ARESULT Sync(int minBufTime=500,int MaxBufTime=1000,int BufferSpan=DEFAULT_BUFFER_SPAN)=0;
     //time unit is millisecond
     
-	virtual int GetFullTime() = 0;
+	virtual int GetFullTime() = 0; //return the full time, in ms
+	virtual string GetFullTimeSerialized() { return MilliSecondToString(GetFullTime()) ;} //return the full time, hh:mm:ss.ms
+	
 	virtual ARESULT SetCurTime(int time) = 0;
-    virtual int GetCurTime() = 0;
+	
+	virtual int GetCurTime() = 0; //return the current time, in ms
+	virtual string GetCurTimeSeralized(){ return MilliSecondToString(GetCurTime());} //return the current time, hh:mm:ss.ms
 
 	virtual bool isPlaying() {return m_bIsPlaying;}
 	virtual bool isPause() {return m_bIsPause;}
@@ -55,7 +58,7 @@ public:
 	virtual TAG GetTag() {
 		return TAG();
 	}
-	
+
 
 protected:
     WAVEFORMATEX * m_pwfx;       //pointer to waveformatex structure
@@ -68,7 +71,11 @@ protected:
     volatile bool m_bIsPause;
     volatile bool m_bIsStop;
 
-//	TAG m_tag; //stores the tag info
+private:
+	//helper function to change the display format of time 
+	string MilliSecondToString(int ms);
+
+
 };
 
 

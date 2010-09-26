@@ -37,11 +37,13 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 		return AR_OK;
 
 	//try to open as *.wma ( or other formats ffmpeg supports)
-	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-	m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
-	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-	if (ar==AR_OK)
-		return AR_OK;
+	if (!m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
+		SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+		m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
+		ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+		if (ar==AR_OK)
+			return AR_OK;
+	}
 
 	//try to open as *.ogg
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
@@ -82,8 +84,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
             return AR_OK;
     }
 
-    
-    
+   
     return AR_ERROR_OPEN_FILE;
 
 
@@ -217,7 +218,7 @@ TAG CAudioCtrl::GetTag()
 	if (m_pIDecoder)
 		return m_pIDecoder->GetTag();
 	else
-		return TAG("Unknown","Unnamed","Unknown","0","","");
+		return TAG("Unknown","Unnamed","Unknown","0","","","");
 }
 
  

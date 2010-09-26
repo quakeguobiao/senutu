@@ -159,13 +159,34 @@ static const char * safeGetTagField(CAPETag* pAPETag,const str_utf16 * fieldName
 
 TAG CApeDecoder::GetTag()
 {  
-  CAPETag * pAPETag = (CAPETag *) m_pIAPE->GetInfo(APE_INFO_TAG);
-  TAG retval;
-  retval.Album = safeGetTagField(pAPETag,L"album");
-  retval.Artist= safeGetTagField(pAPETag,L"artist");
-  retval.Comment = safeGetTagField(pAPETag,L"comment");
-  retval.Genre = safeGetTagField(pAPETag,L"genre");
-  retval.Title = safeGetTagField(pAPETag,L"title");
-  retval.Year = safeGetTagField(pAPETag,L"date");
-  return retval;
+	CAPETag * pAPETag = (CAPETag *) m_pIAPE->GetInfo(APE_INFO_TAG);
+	TAG retval;
+	retval.Album = safeGetTagField(pAPETag,L"album");
+	retval.Artist= safeGetTagField(pAPETag,L"artist");
+	retval.Comment = safeGetTagField(pAPETag,L"comment");
+	retval.Genre = safeGetTagField(pAPETag,L"genre");
+	retval.Title = safeGetTagField(pAPETag,L"title");
+	retval.Year = safeGetTagField(pAPETag,L"date");
+	retval.TotalTime = GetFullTimeSerialized();
+	return retval;
 }
+
+// string CApeDecoder::GetFullTimeSerialized()
+// {
+// 	int totalTime = GetFullTime();
+// 	int hour = totalTime / 3600000;
+// 	int minute = totalTime / 60000;
+// 	int second = totalTime / 1000 - hour * 3600 - minute * 60;
+// 	char result[10];
+// 	if (hour > 0)
+// 		sprintf(result,"%d%s%d%s%d",hour,":",minute,":",second);
+// 	else
+// 		sprintf(result,"%d%s%d",minute,":",second);
+// 	return string(result);
+// }
+// 
+// string CApeDecoder::GetCurTimeSeralized()
+// {
+// 
+// 
+// }
