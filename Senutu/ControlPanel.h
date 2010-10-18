@@ -8,6 +8,7 @@
 #include <QtGui/QLabel>
 
 #include "ui_ControlPanel.h"
+#include "Lyrics.h"
 
 class Senutu;
 
@@ -52,7 +53,7 @@ private:
 	ControlPanel::PlayState m_bPlayState;
 	int m_sliderPos;
 	bool _isSliderDragging;
-
+    Lyrics _lrc;
 	private slots:
 		void sync();
 

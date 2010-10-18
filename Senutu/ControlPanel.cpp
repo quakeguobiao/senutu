@@ -8,7 +8,7 @@
 #include "aerror.h"
 
 ControlPanel::ControlPanel( Senutu * parent ):QWidget(parent),
-_isSliderDragging(false)
+_isSliderDragging(false),_lrc("","")
 {
 	setupUi(this);
 	m_pSenutu = parent;
@@ -39,7 +39,7 @@ _isSliderDragging(false)
 	m_pVolumeSlider->setRange(0,10);
 	m_pVolumeSlider->setValue(m_bVolume);
 	m_pPlayInfo->setStyleSheet("border-image:url(:/res/images/screen.png) ; border-width:3px");
-	m_pPlayInfo->setText(tr("<center>No media</center>"));
+	m_pPlayInfo->setText(tr("<center><font color=\"white\">No media</font></center>"));
 
 	ControlPanel::createConnections();
 	//set up the sync loop
@@ -103,8 +103,11 @@ void ControlPanel::timerEvent(QTimerEvent *event)
 	{
 		if(m_bPlayState == ControlPanel::Playing )
 		{
-			if (!_isSliderDragging)
+			if (!_isSliderDragging) {
 				m_pSeekSlider->setValue(CAudioCtrl::GetCurTime());
+				m_pPlayInfo->setText("<center><font color=\"white\">"+_lrc.At(CAudioCtrl::GetCurTime())+"</font></center>");
+			}
+
 			
 		}
 	}
@@ -136,7 +139,7 @@ void ControlPanel::playMusic(int index)
 
 void ControlPanel::currentIndexChanged()
 {
-	setPlayState(ControlPanel::Open);
+//	setPlayState(ControlPanel::Open);
 }
 
 void ControlPanel::playORpause()
@@ -289,6 +292,10 @@ void ControlPanel::play(int index)
 	wchar_t * fileName = new wchar_t[length+1]; 
 	MultiByteToWideChar(CP_ACP, 0, strFileName, -1, fileName, length);   
 	CAudioCtrl::Open(fileName);
+	//set up lrc
+	TAG tag = CAudioCtrl::GetTag();	
+	_lrc.setLyrics(tag.Artist.c_str(),tag.Title.c_str());
+
 	int time = CAudioCtrl::GetFullTime();
 	m_pSeekSlider->setRange(0,time);
 	CAudioCtrl::Play();

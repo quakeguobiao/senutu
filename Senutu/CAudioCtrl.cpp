@@ -28,7 +28,14 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 	//TODO: exception handling
 
     ARESULT ar=AR_OK;
-
+	//try to open as *.wma ( or other formats ffmpeg supports)
+	if (/*!m_pAudioCtrl->checkExtension(lpFileName,L"mp3")*/true) {
+		SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+		m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
+		ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+		if (ar==AR_OK)
+			return AR_OK;
+	}
 	//try to open as *.ape
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
 	m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
@@ -36,14 +43,7 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 	if (ar==AR_OK)
 		return AR_OK;
 
-	//try to open as *.wma ( or other formats ffmpeg supports)
-	if (!m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
-		SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
-		m_pAudioCtrl->m_pIDecoder=new CFfmpegDecoder();
-		ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-		if (ar==AR_OK)
-			return AR_OK;
-	}
+	
 
 	//try to open as *.ogg
 	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
@@ -73,8 +73,6 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
     ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
         return AR_OK;
-
-    
     if (m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
         //try to open as *.mp3
         SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
@@ -83,8 +81,6 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
         if (ar==AR_OK)
             return AR_OK;
     }
-
-   
     return AR_ERROR_OPEN_FILE;
 
 

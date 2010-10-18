@@ -43,8 +43,8 @@ string IDecoder::MilliSecondToString(int ms)
 	int second = totalTime / 1000 - hour * 3600 - minute * 60;
 	char result[10];
 	if (hour > 0)
-		sprintf(result,"%d%s%d%s%d",hour,":",minute,":",second);
+		sprintf(result,"%d%s%2d%s%2d",hour,":",minute,":",second);
 	else
-		sprintf(result,"%d%s%d",minute,":",second);
+		sprintf(result,"%d%s%2d",minute,":",second);
 	return string(result);
 }
