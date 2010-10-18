@@ -41,12 +41,16 @@
 
 #include <QtGui/QApplication>
 #include <QTextCodec>
+#include "Lyrics.h"
 #include "MainWindow.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	Lyrics lrc("","");
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+	lrc.SearchLyrics("许巍","蓝莲花");
+	lrc.DownloadLyrics("周杰伦","以父之名");
 	Senutu w;
 	w.show();
 	return a.exec();
