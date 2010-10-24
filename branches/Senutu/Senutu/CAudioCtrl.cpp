@@ -151,12 +151,16 @@ ARESULT CAudioCtrl::SetCurTime( int time )
 
 float CAudioCtrl::GetVolume()
 {
-	return m_pAudioCtrl->m_pIDecoder->GetVolume();
+	if (m_pIDecoder)		
+		return m_pAudioCtrl->m_pIDecoder->GetVolume();
+	else return 1.0f;
 }
 
 ARESULT CAudioCtrl::SetVolume(float theVolume)
 {
-	return m_pAudioCtrl->m_pIDecoder->SetVolume(theVolume);
+	if (m_pAudioCtrl->m_pIDecoder)
+		return m_pAudioCtrl->m_pIDecoder->SetVolume(theVolume);
+	else return AR_E_FAIL;
 }
 
 ARESULT CAudioCtrl::Stop()
