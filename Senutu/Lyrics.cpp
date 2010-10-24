@@ -216,6 +216,7 @@ QString Lyrics::At( qint64 timePoint )
 
 bool Lyrics::setLyrics( QString artist, QString title )
 {
+	this->_lrcData.clear();
 	this->SearchLyrics(artist,title);
 	if (!this->DownloadLyrics(artist,title)) {
 		return false;
