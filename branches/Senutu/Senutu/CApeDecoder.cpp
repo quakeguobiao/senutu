@@ -168,6 +168,10 @@ TAG CApeDecoder::GetTag()
 	retval.Title = safeGetTagField(pAPETag,L"title");
 	retval.Year = safeGetTagField(pAPETag,L"date");
 	retval.TotalTime = GetFullTimeSerialized();
+	/*pAPETag->SetFieldString(L"artist","²ÌÒÀÁÖ",true);
+	pAPETag->SetFieldString(L"title","»¨ºûµû",true);*/
+	pAPETag->Save();
+
 	return retval;
 }
 

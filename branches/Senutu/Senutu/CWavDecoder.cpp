@@ -228,11 +228,15 @@ HRESULT CWavDecoder::Read( BYTE* pBuffer, DWORD dwSizeToRead, DWORD* pdwSizeRead
 
 int CWavDecoder::GetFullTime()
 {
+	if (!m_pwfx)
+		return 0;
     return m_dwSize / m_pwfx->nBlockAlign * 1000 / m_pwfx->nSamplesPerSec;
 }
 
 int CWavDecoder::GetCurTime()
 {
+	if (m_pwfx==NULL)
+		return 0;
     int ret= mmioSeek(m_hmmio,0,SEEK_CUR);
     ret=ret / m_pwfx->nBlockAlign  * 1000 / m_pwfx->nSamplesPerSec;
     ret-=XACtrl.bufferedTime();

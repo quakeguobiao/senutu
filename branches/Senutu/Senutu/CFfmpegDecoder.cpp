@@ -34,7 +34,7 @@ ARESULT CFfmpegDecoder::Open( LPWSTR strFileName )
     
     if (av_open_input_file (&pFormatContext,pFileName , NULL, 0, NULL) != 0)   //打开一个文件
     {
-        return atrace_error("",AR_ERROR_OPEN_FILE);
+        return atrace_error("error open file",AR_ERROR_OPEN_FILE);
         
     }
     if (av_find_stream_info (pFormatContext) < 0)  //获得一个流信息
