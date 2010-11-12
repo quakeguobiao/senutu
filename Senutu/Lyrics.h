@@ -23,12 +23,15 @@ signals:
 public:
 	Lyrics(QString artist, QString title);
 	~Lyrics();
+	/*****
+	* this is the real important function!!!!! only invoke this
+	******/
 	bool setLyrics(QString artist, QString title);
 	//determine whether the lyrics of this song has been downloaded 
 	bool IsDownloaded(string artist, string title){return false;}
 
 	//download the lyrics of a song
-	//The file name is .\lyrics\artist - title.lrc.
+	//The file name is artist - title.lrc.
 	bool DownloadLyrics(QString artist, QString title);
 
 	bool SearchLyrics(QString artist, QString title);

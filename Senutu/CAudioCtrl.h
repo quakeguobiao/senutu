@@ -40,18 +40,15 @@ public:
 		if (m_pIDecoder)
 			return m_pIDecoder->isPlaying();
 		else return false;
-	}
+	} 
     static bool isPause() {
 		if (m_pIDecoder)
 			return m_pIDecoder->isPause();
 		else return true;
 	}
-	
-	
-
 	//NOTE:call this after Open()!
 	static TAG GetTag();
-	
+
 
 private:
 	CAudioCtrl();

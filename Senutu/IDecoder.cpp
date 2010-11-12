@@ -41,7 +41,7 @@ string IDecoder::MilliSecondToString(int ms)
 	int hour = totalTime / 3600000;
 	int minute = totalTime / 60000;
 	int second = totalTime / 1000 - hour * 3600 - minute * 60;
-	char result[10];
+	char result[1000];
 	if (hour > 0)
 		sprintf(result,"%d%s%2d%s%2d",hour,":",minute,":",second);
 	else

@@ -3,6 +3,7 @@
 #include <QtEndian>
 #include <QEventLoop>
 #include <QStringList>
+#include <QtCore>
 //helper functions
 static long long Conv(int i) {
 	long long r = i % 4294967296;
@@ -214,19 +215,44 @@ QString Lyrics::At( qint64 timePoint )
 	return "...";
 }
 
-bool Lyrics::setLyrics( QString artist, QString title )
-{
+static QString GetLyricsFileName(QString artist,QString title) {
+	return artist+"-"+title+".lrc";
+}
+
+bool Lyrics::setLyrics( QString artist, QString title ) {
 	this->_lrcData.clear();
 	this->SearchLyrics(artist,title);
 	if (!this->DownloadLyrics(artist,title)) {
-		return false;
+		//load from disk
+		QString fileName = GetLyricsFileName(artist,title);
+		QFile lrcInFile(fileName);
+		lrcInFile.open(QFile::ReadOnly);
+		QTextStream lrcIns(&lrcInFile);
+		m_temp="";
+		while (1) {
+			QString buffer = lrcIns.readLine();
+			if (buffer.isNull())
+				break;
+			m_temp+=buffer+'\n';
+		}
+	} else {
+		//save to a lrc file for later use 
+		QString fileName = GetLyricsFileName(artist,title);
+		QFile lrcOutFile(fileName);
+		lrcOutFile.open(QFile::WriteOnly);
+		QTextStream lrcOuts(&lrcOutFile);
+		lrcOuts<<m_temp;
 	}
 	this->prepareLrc();
+	
 	return true;
 }
 
+
+
 void Lyrics::prepareLrc()
 {
+	vector<qint64> multiTimeStamp;
 	_lrcData.clear();
 	for (int i = 0;i<m_temp.size();i++)
 		if (m_temp[i]=='[') {
@@ -252,6 +278,13 @@ void Lyrics::prepareLrc()
 			QString lrcContent = m_temp.mid(posFang+1,nextFang-posFang-1);
 			qint64 timeStamp = minute*60*1000+second*1000;
 			_lrcData.insert(timeStamp,lrcContent);
+			if (lrcContent=="")
+				multiTimeStamp.push_back(timeStamp);
+			else {
+				for (int i = 0;i<multiTimeStamp.size();i++)
+					_lrcData.insert(multiTimeStamp[i],lrcContent);
+				multiTimeStamp.clear();
+			}
 		}
 	return;
 }

@@ -26,8 +26,34 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 {  
  
 	//TODO: exception handling
-
+	
     ARESULT ar=AR_OK;
+
+	//open as *.mp3
+	if (m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
+		//try to open as *.mp3
+		SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+		m_pAudioCtrl->m_pIDecoder=new CMp3Decoder();
+		ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+		if (ar==AR_OK)
+			return AR_OK;
+	}
+
+	
+	//try to open as *.ape
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+	m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
+	//try to open as *.flac
+	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
+	m_pAudioCtrl->m_pIDecoder=new CFlacDecoder();
+	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
+	if (ar==AR_OK)
+		return AR_OK;
+
 	//try to open as *.wma ( or other formats ffmpeg supports)
 	if (/*!m_pAudioCtrl->checkExtension(lpFileName,L"mp3")*/true) {
 		SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
@@ -36,13 +62,6 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 		if (ar==AR_OK)
 			return AR_OK;
 	}
-	//try to open as *.ape
-	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-	m_pAudioCtrl->m_pIDecoder=new CApeDecoder();
-	ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-	if (ar==AR_OK)
-		return AR_OK;
-
 	
 
 	//try to open as *.ogg
@@ -59,28 +78,11 @@ ARESULT CAudioCtrl::Open(LPWSTR lpFileName )
 	}	
 
 	//try to open as *.wav
-    SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
+    /*SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);
     m_pIDecoder=new CWavDecoder();
     ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
     if (ar==AR_OK)
-        return AR_OK;
-
-	
-
-	//try to open as *.flac
-	SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-    m_pAudioCtrl->m_pIDecoder=new CFlacDecoder();
-    ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-    if (ar==AR_OK)
-        return AR_OK;
-    if (m_pAudioCtrl->checkExtension(lpFileName,L"mp3")) {
-        //try to open as *.mp3
-        SAFE_DELETE(m_pAudioCtrl->m_pIDecoder);    
-        m_pAudioCtrl->m_pIDecoder=new CMp3Decoder();
-        ar=m_pAudioCtrl->m_pIDecoder->Open(lpFileName);
-        if (ar==AR_OK)
-            return AR_OK;
-    }
+        return AR_OK;*/
     return AR_ERROR_OPEN_FILE;
 
 
